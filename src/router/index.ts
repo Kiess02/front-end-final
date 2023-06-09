@@ -206,6 +206,14 @@ const routes = [
       requireAuth: true,
     },
   },
+  {
+    path: "/search",
+    name: "search",
+    component: () => import("@/views/search.vue"),
+    meta: {
+      requireAuth: true,
+    },
+  },
 ];
 
 const router = new VueRouter({

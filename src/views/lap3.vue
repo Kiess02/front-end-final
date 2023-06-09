@@ -5,7 +5,7 @@
         <h2>ສ້າງໃບສະໂໜດ</h2>
       </v-card-title>
       <template>
-        <v-form>
+        <v-form   @submit="formSubmit">
           <v-container>
             <v-row>
               <v-col cols="12" md="3">
