@@ -1,32 +1,16 @@
 <template>
-  <v-avatar
-  color="primary"
-  size="56"
-></v-avatar>
+  <v-btn @click="showAlert">Hello world</v-btn>
 </template>
+
 <script>
-  export default {
-    data: () => ({
-      labels: [
-        'Edit Profile',
-     
-      ],
-      value: [
-        200,
-        675,
-        410,
-        390,
-        310,
-        460,
-        250,
-        240,
-      ],
-    }),
-  }
+export default {
+  methods: {
+    showAlert() {
+      // Use sweetalert2
+      this.$swal.fire( 'ທ່ານຕ້ອງການລຶບແທ້ບໍ?',
+  'ຖ້າລຶບແລ້ວຈະບໍ່ສາມາດກູ້ຄືນໄດ້?',
+  'question');
+    },
+  },
+};
 </script>
-<style>
-  .v-sheet--offset {
-    top: -24px;
-    position: relative;
-  }
-</style>

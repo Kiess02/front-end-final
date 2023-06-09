@@ -1,10 +1,33 @@
-
-
 <template>
-  <div>
-    <v-app-bar ccolor="deep-purple accent-4" dense color="teal" class="flex-grow-0" app>
+  <div id="font">
+    <v-app-bar dense flat class="flex-grow-0" app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"> </v-app-bar-nav-icon>
       <v-spacer></v-spacer>
+      <v-text-field
+      placeholder='search'
+    prepend-inner-icon="mdi-magnify"
+      hide-details
+      style="max-width: 165px;"
+    >
+      <template
+       
+        v-slot:append-outer
+      >
+      
+      </template>
+    </v-text-field>
+    <template>
+      <v-btn class="ml-2" min-width="0" text >
+        <v-icon>mdi-bell-ring</v-icon>
+      </v-btn>
+     
+    </template>
+  
+      <template>
+        <v-btn class="ml-2" min-width="0" text to="/dashboard">
+          <v-icon>mdi-view-dashboard</v-icon>
+        </v-btn>
+      </template>
 
       <v-menu
         bottom
@@ -16,7 +39,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-btn dark icon v-bind="attrs" v-on="on" class="align-center">
-            <v-icon>mdi-account-multiple</v-icon>
+            <v-icon color="black">mdi-account-multiple</v-icon>
           </v-btn>
         </template>
 
@@ -32,47 +55,158 @@
         </v-list>
       </v-menu>
     </v-app-bar>
-    <v-navigation-drawer
-      app
-      v-model="drawer"
-      class="blue-grey darken-4"
-      dark
-      persistent
+
+    <!-- <v-app-bar
+    id="app-bar"
+    absolute
+    app
+    color="transparent"
+    flat
+    height="75"
+  >
+    <v-btn
+      class="mr-3"
+      elevation="1"
+      fab
+      small
+      @click="setDrawer(!drawer)"
     >
+      <v-icon v-if="value">
+     
+      </v-icon>
+
+      <v-icon v-else>
+        mdi-dots-vertical
+      </v-icon>
+    </v-btn>
+
+    <v-toolbar-title
+      class="hidden-sm-and-down font-weight-light"
+      v-text="$route.name"
+    />
+
+    <v-spacer />
+
+    <v-text-field
+      :label="$t('search')"
+      color="secondary"
+      hide-details
+      style="max-width: 165px;"
+    >
+      <template
+        v-if="$vuetify.breakpoint.mdAndUp"
+        v-slot:append-outer
+      >
+        <v-btn
+          class="mt-n2"
+          elevation="1"
+          fab
+          small
+        >
+          <v-icon>mdi-magnify</v-icon>
+        </v-btn>
+      </template>
+    </v-text-field>
+
+    <div class="mx-3" />
+
+    <v-btn
+      class="ml-2"
+      min-width="0"
+      text
+      to="/"
+    >
+      <v-icon>mdi-view-dashboard</v-icon>
+    </v-btn>
+
+    <v-menu
+      bottom
+      left
+      offset-y
+      origin="top right"
+      transition="scale-transition"
+    >
+      <template v-slot:activator="{ attrs, on }">
+        <v-btn
+          class="ml-2"
+          min-width="0"
+          text
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-badge
+            color="red"
+            overlap
+            bordered
+          >
+            <template v-slot:badge>
+              <span>5</span>
+            </template>
+
+            <v-icon>mdi-bell</v-icon>
+          </v-badge>
+        </v-btn>
+      </template>
+
+      <v-list
+        :tile="false"
+        nav
+      >
+        <div>
+          <app-bar-item
+            v-for="(n, i) in notifications"
+            :key="`item-${i}`"
+          >
+            <v-list-item-title v-text="n" />
+          </app-bar-item>
+        </div>
+      </v-list>
+    </v-menu>
+
+    <v-btn
+      class="ml-2"
+      min-width="0"
+      text
+      to="/pages/user"
+    >
+      <v-icon>mdi-account</v-icon>
+    </v-btn>
+  </v-app-bar> -->
+
+    <!-- sidebar -->
+    <v-navigation-drawer app v-model="drawer"  class="blue-grey darken-4"
+    dark
+    persistent>
       <v-list-item>
         <v-list-item-content>
           <v-list-item class="py-6">
             <v-list-item-title class="text-capitalize" align="center">
-              <v-icon x-large>fa-folder-open</v-icon> Document manager
+              <v-icon x-large>mdi-folder-open</v-icon> Document manager
             </v-list-item-title>
           </v-list-item>
-          <div class="text-center"></div>
+          <div><v-divider></v-divider></div>
 
-          <v-divider></v-divider>
-
-          <router-link to="/dashboard" class="decoration">
-            <v-list-item>
+          <router-link to="/dashboard" class="decoration"  active-class="green">
+            <v-list-item >
               <v-list-item-icon>
                 <v-icon>mdi-microsoft-windows</v-icon>
               </v-list-item-icon>
 
               <v-list-item-content>
-                <v-list-item-title
-                  active-class="deep-purple--text text--accent-4"
-                  >ໜ້າຫຼັກ</v-list-item-title
+                <v-list-item-title >ໜ້າຫຼັກ</v-list-item-title
                 >
               </v-list-item-content>
             </v-list-item>
           </router-link>
 
-          <router-link to="/profile" class="decoration">
+          <router-link to="/profile" class="decoration"  active-class="green">
             <v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-account</v-icon>
               </v-list-item-icon>
 
               <v-list-item-content>
-                <v-list-item-title>ບັນຊີຜູ້ໃຊ້</v-list-item-title>
+                <v-list-item-title>ຂໍ້ມູນຜູ້ໃຊ້</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </router-link>
@@ -86,19 +220,21 @@
           v-model="item.active"
           :prepend-icon="item.action"
           no-action
-          class="pt-1 text--white"
-          active-class="deep-purple--text text--accent-4"
+          class="align-self-center"
+          color="white"
         >
           <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-content class="display-1">
+              <v-list-item-title style="font-family:phetsarath OT">{{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </template>
 
           <v-list-item
             v-for="child in item.items"
             :key="child.title"
+            :prepend-icon="child.icon"
             :to="{ path: child.router }"
+            active-class="green"
           >
             <v-list-item-content>
               <v-list-item-title>{{ child.title }}</v-list-item-title>
@@ -111,15 +247,10 @@
 </template>
 
 <script>
-import { createVuetify } from "vuetify";
-
-import colors from "vuetify/lib/util/colors";
-
-
 export default {
-
   name: "App",
   data: () => ({
+    activeColor: "secondary",
     drawer: false,
     userlogin: [
       { title: "ເຂົ້າສູ່ລະບົບອື່ນ", router: "/login" },
@@ -128,41 +259,41 @@ export default {
 
     items: [
       {
-        action: "mdi-silverware-fork-knife",
+        action: "mdi-folder-multiple",
 
         items: [
           { title: "ຈັດການຂໍ້ມູນຜູ້ໃຊ້", router: "/Users" },
           { title: "ປະເພດເອກະສານ", router: "/documentCategory" },
           { title: "ຈັດການຂໍ້ມູນກົມ", router: "/department" },
         ],
-        title: "ຈັດການຂໍ້ມູນ",
+        title: "ຈັດການຂໍ້ມູນ", 
       },
       {
-        action: "mdi-school",
+        action: "mdi-widgets",
         items: [
-          { title: "ສ້າງສະໂນດ" },
-          { title: "ສ້າງໃບກິດສຳພັນ" },
-          { title: "ເອກະສານຂາເຂົ້າ" },
-          { title: "ເອກະສານຂາອອກ" },
+          { title: "ສ້າງສະໂໜດ",router:"/sanod" },
+          { title: "ສ້າງໃບກິດສຳພັນ", router:"/relationship-form" },
+          { title: "ບັນທຶກເອກະສານຂາເຂົ້າ",router:"/Input-inbound-document" },
+     
         ],
         title: "ບໍລິການ",
       },
       {
-        action: "mdi-human-male-female-child",
+        action: "mdi-script",
         items: [
-          { title: "ຂາອອກກົມ" },
-          { title: "ຂາເຂົ້າກົມ" },
-          { title: "ຂາອອກສຳນັກງານ", router: "/tableOutbound" },
-          { title: "ຂາເຂົ້າສຳນັກງານ", router: "/tableInbound" },
+          { title: "ລາຍງານຂາອອກກົມ", router: "/report-outbound"  },
+          { title: "ລາຍງານຂາເຂົ້າກົມ" , router: "/report-outbound" },
+          { title: "ລາຍງານຂາອອກສຳນັກງານ", router: "/tableOutbound" },
+          { title: "ລາຍງານຂາເຂົ້າສຳນັກງານ", router: "/tableInbound" },
         ],
         title: "ລາຍງານ",
       },
 
       {
-        action: "mdi-human-male-female-child",
+        action: " fa-file-exclamation",
         items: [
-          { title: "ຂາອອກກົມ" },
-          { title: "ຂາເຂົ້າກົມ" },
+          {  title: "lap2", router: "/lap2"  },
+          { title: "lap3", router: "/lap3" },
           { title: "lap", router: "/lap" },
           { title: "ຂາເຂົ້າສຳນັກງານ" },
         ],
@@ -175,5 +306,8 @@ export default {
 <style>
 .decoration {
   text-decoration: none;
+}
+#font {
+  font-family: Phetsarath OT;
 }
 </style>

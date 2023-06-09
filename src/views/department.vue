@@ -3,6 +3,8 @@
   <v-data-table
     :headers="headers"
     :items="show"
+    :loading="myloadingvariable"
+    loading-text="ກຳລັງໂຫຼດ... ກະລຸນາລໍຖ້າ"
     class="elevation-1 font pl-2"
     
   >
@@ -23,7 +25,7 @@
 
           <v-card  class="pa-1 mx-auto">
             <v-card-title>
-              <h2>Add a New Department</h2>
+              <h2>ເພີ່ມກົມ</h2>
             </v-card-title>
             <v-container>
               <v-form
@@ -111,6 +113,7 @@ export default {
   },
 
   data: () => ({
+    myloadingvariable: true,
     headers: [
     
       { text: "ລະຫັດກົມ", value: "depart_Id" },
@@ -176,10 +179,11 @@ export default {
 
 //       })  
 // },
-    fetchData() {
+   async fetchData() {
   
         axios.get("http://127.0.0.1:8000/api/Department/all").then((response) => {
-      this.show = response.data.data;
+      this.show = response.data;
+      this.myloadingvariable= false;
       console.log(response.data.data);
     })
      

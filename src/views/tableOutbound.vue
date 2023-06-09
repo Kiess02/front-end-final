@@ -1,13 +1,12 @@
 <template>
   <main class="pl-4">
     <v-data-table
-      :headers="headers"
-      :items="show"
-      
-      :loading="myloadingvariable"
-      loading-text="ກຳລັງໂຫຼດ... ກະລຸນາລໍຖ້າ"
-      class="elevation-1 font pl-2"
-    >
+    :headers="headers"
+    :items="show"
+    :loading="myloadingvariable"
+    loading-text="ກຳລັງໂຫຼດ... ກະລຸນາລໍຖ້າ"
+    class="elevation-1 font pl-2"
+  >
  
    
 
@@ -21,31 +20,15 @@
       </template>
 
       <template v-slot:[`item.actions`]="{ item }">
-        <router-link
-          :to="{
-            path: '/show/' + item.doc_Id + '/editdoc',
-            params: { doc_Id },
-          }"
-          ><v-icon small class="mr-2"> mdi-pencil </v-icon></router-link
-        >
-
-        <v-icon
+        <router-link :to="{ path: '/show/'+item.doc_Id+'/editdoc',params: {doc_Id} }" ><v-icon small class="mr-2" > mdi-pencil </v-icon></router-link>
+  
+          <v-icon small color="error" class="mr-2" @click="DeleteShow(item.doc_Id)"> mdi-delete </v-icon>
+          <v-icon
           small
-          color="error"
-          class="mr-2"
-          @click="DeleteShow(item.doc_Id)"
+          @click="deleteItem(item)"
         >
-          mdi-delete
+          mdi-book
         </v-icon>
-        <v-icon
-          small
-          class="mr-2"
-          type="button"
-          value="Open"
-          @click="readFile()"
-        >
-          fa-duotone fa-book</v-icon
-        >
       </template>
     </v-data-table>
   </main>
@@ -77,10 +60,7 @@ export default {
       { text: "Actions", value: "actions", sortable: false },
     ],
   
-    show: [
-      {No: '1',}
-  
-    ],
+   show:[],
     No:'',
     doc_Id: "",
     outbound_Detail_Id: "",
@@ -101,18 +81,17 @@ export default {
   
 
   mounted() {
-    this.fetchData();
     setInterval(() => this.fetchData(), 3000);
    
   },
 
   methods: {
 
-    DeleteShow(outbound_Detail_Id) {
+    DeleteShow(doc_Id) {
       axios
-        .delete(`http://127.0.0.1:8000/api/outbound_detail/delete/${outbound_Detail_Id}`)
+        .delete(`http://127.0.0.1:8000/api/doc_outbound/delete/${doc_Id}`)
         .then((res) => {
-          alert(res.data.message);
+          alert('successfully fetch');
         });
     },
     async fetchData() {
@@ -120,8 +99,8 @@ export default {
         .get("http://127.0.0.1:8000/api/doc_outbound/all")
         .then((response) => {
           this.show = response.data.data;
-          this.myloadingvariable = false;
-          console.log(response.data.data);
+          this.myloadingvariable= false;
+          console.log('successfully fetch');
         });
     },
 

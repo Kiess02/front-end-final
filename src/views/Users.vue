@@ -29,139 +29,151 @@
               </v-tooltip>
             </template>
 
-            <v-card height="600px" class="pa-1">
+            <v-card height="400px" class="pa-1">
               <v-card-title>
                 <h2>ເພີ່ມຜູ້ໃຊ້</h2>
               </v-card-title>
               <v-container>
-                <v-form ref="form" v-model="valid" lazy-validation>
-
+                <v-form @submit="formSubmit" enctype="multipart/form-data">
                   <v-row>
-
-                    <v-col cols="6">
+                    <v-col cols="12" sm="4">
                       <v-text-field
-                        v-model="name"
-                        :counter="10"
-                        :rules="nameRules"
-                        label="Name"
+                        v-model="firstname"
+                        @input="$v.firstname.$touch()"
+                        @blur="$v.firstname.$touch()"
+                        :error-messages="firstnameErrors"
+                        label="ຊື່"
                         required
                       ></v-text-field>
                     </v-col>
 
-
-                    <v-col cols="6">
+                    <v-col cols="12" sm="4">
                       <v-text-field
-                        v-model="name"
-                        :counter="10"
-                        :rules="nameRules"
-                        label="lastName"
+                        v-model="lastname"
+                        @input="$v.lastname.$touch()"
+                        @blur="$v.lastname.$touch()"
+                        :error-messages="lastnameErrors"
+                        label="ນາມສະກຸນ"
                         required
                       ></v-text-field>
                     </v-col>
 
-
-                    <v-col cols="6">
+                    <v-col cols="12" sm="4">
                       <v-text-field
-                        v-model="name"
-                        :counter="10"
-                        :rules="nameRules"
-                        label="depart Id"
+                        v-model="depart_Id"
+                        
+                        @input="$v.depart_Id.$touch()"
+                        @blur="$v.depart_Id.$touch()"
+                        :error-messages="depart_IdErrors"
+                        label="ລະຫັດກົມ"
                         required
                       ></v-text-field>
                     </v-col>
 
-
-                    <v-col cols="6">
-                      <v-text-field
-                        v-model="name"
+                    <v-col cols="12" sm="4">
+                      <!-- <v-text-field
+                        v-model="gender"
                         :counter="10"
-                        :rules="nameRules"
-                        label="gender"
+                       
+                        @input="$v.gender.$touch()"
+                        @blur="$v.gender.$touch()"
+                        :error-messages="genderErrors"
+                        label="ເພດ"
                         required
-                      ></v-text-field>
-                    </v-col>
-
-
-                    <v-col cols="6">
-                      <v-text-field
-                        v-model="name"
-                        :counter="10"
-                        :rules="nameRules"
-                        label="userName"
-                        required
-                      ></v-text-field>
-                    </v-col>
-
-
-                    <v-col cols="6">
-                      <v-text-field
-                        v-model="name"
-                        :counter="10"
-                        :rules="nameRules"
-                        label="email"
-                        required
-                      ></v-text-field>
-                    </v-col>
-
-
-                    <v-col cols="6">
-                      <v-text-field
-                        v-model="name"
-                        :counter="10"
-                        :rules="nameRules"
-                        label="password"
-                        required
-                      ></v-text-field>
-                    </v-col>
-
-                    
-                    <v-col cols="6">
-                      <v-text-field
-                        v-model="name"
-                        :counter="10"
-                        :rules="nameRules"
-                        label="ReEnterPassword"
-                        required
-                      ></v-text-field>
-                    </v-col>
-
-
-
-                    <v-col cols="6">
+                      ></v-text-field> -->
                       <v-select
-                        v-model="select"
-                        :items="items"
-                        :rules="[(v) => !!v || 'Item is required']"
-                        label="Status"
+                      v-model="gender"
+                      :items="genders"
+                     
+                      @input="$v.gender.$touch()"
+                      @blur="$v.gender.$touch()"
+                      :error-messages="genderErrors"
+                      label="ເພດ"
+                      required
+                      item-value="gender"
+                      prepend-icon=""
+                    ></v-select>
+                    </v-col>
+
+                    <v-col cols="12" sm="4">
+                      <v-text-field
+                        v-model="username"
+                    
+                        @input="$v.username.$touch()"
+                        @blur="$v.username.$touch()"
+                        :error-messages="usernameErrors"
+                        label="ຊື່ຜູ້ໃຊ້"
+                        required
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="12" sm="4">
+                      <v-text-field
+                        v-model="email"
+                       
+                        @input="$v.email.$touch()"
+                        @blur="$v.email.$touch()"
+                        :error-messages="emailErrors"
+                        label="ອີເມວ"
+                        required
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="12" sm="4">
+                      <v-text-field
+                        v-model="password"
+                                           
+                        @input="$v.password.$touch()"
+                        @blur="$v.password.$touch()"
+                        :error-messages="passwordErrors"
+                        label="ລະຫັດຜ່ານ"
+                        required
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="12" sm="4">
+                      <v-select
+                        v-model="status"
+                        :items="statuss"
+                        item-value="status"
+                        @input="$v.status.$touch()"
+                        @blur="$v.status.$touch()"
+                        :error-messages="statusErrors"
+                       
+                        label="ສະຖານະ"
                         required
                         prepend-icon=""
                       ></v-select>
                     </v-col>
 
-                    <v-col cols="6">
+                    <v-col cols="12" sm="4">
                       <v-file-input
-                        label="selectImage"
-                        filled
+                        label="ຮູບ"
+                        accept="image/png, image/gif, image/jpeg"
+                        show-size
+                        :error-messages="imageErrors"                     
+                        @change="onFileChange"
+                        @input="$v.image.$touch()"
+                        @blur="$v.image.$touch()"
                         prepend-icon="mdi-camera"
+                        
+                       
                       ></v-file-input>
                     </v-col>
-
-
-                   
                   </v-row>
 
                   <v-row align="center" justify="center">
                     <v-btn
-                      :disabled="!valid"
-                      color="success"
-                      class="mr-4"
-                      @click="validate"
+                      class="btn btn-success mx-2"
+                      @click.native="formSubmit"
+                      @click="submit"
+                      color="primary"
                     >
-                      Submit
+                      ບັນທຶກ
                     </v-btn>
 
-                    <v-btn color="error" class="mr-4" @click="reset">
-                      Reset 
+                    <v-btn class="btn btn-success"  color="error">
+                      ຍົກເລີກ
                     </v-btn>
                   </v-row>
                 </v-form>
@@ -172,10 +184,7 @@
       </template>
 
       <template v-slot:[`item.actions`]="{ item }">
-        <router-link
-          ><v-icon small class="mr-2"> mdi-pencil </v-icon></router-link
-        >
-
+        <v-icon small class="mr-2"> mdi-pencil </v-icon>
         <v-icon
           small
           color="error"
@@ -184,15 +193,7 @@
         >
           mdi-delete
         </v-icon>
-        <v-icon
-          small
-          class="mr-2"
-          type="button"
-          value="Open"
-          @click="readFile()"
-        >
-          fa-duotone fa-book</v-icon
-        >
+        <v-icon small @click="deleteItem(item)"> mdi-book </v-icon>
       </template>
     </v-data-table>
   </div>
@@ -208,14 +209,24 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    title: { required },
-    ex_doc_id: { required },
-    file: { required },
-    from: { required },
-    date: { required },
-    doc_Id: { required },
+    image: { required },
     depart_Id: { required },
-    doc_Category_Id: { required },
+    gender: { required },
+    firstname: { required },
+    lastname: { required },
+    username: { required },
+    email: { required },
+    password: { required },
+    status: { required },
+    // image: "",
+    // depart_Id: "",
+    // gender: "",
+    // firstname: "",
+    // lastname: "",
+    // username: "",
+    // email: "",
+    // password: "",
+    // status: "",
   },
 
   data: () => ({
@@ -239,16 +250,18 @@ export default {
     dialog: false,
     dialogDelete: false,
     show: [],
-    user_Id: "",
+    image: null,
     depart_Id: "",
     gender: "",
     firstname: "",
     lastname: "",
     username: "",
     email: "",
+    password: "",
     status: "",
-    select: null,
-    items: ["Admin", "Guest Uer"],
+    status: null,
+    statuss: ["ແອັດມິນ", "ຜູ້ໃຊ້ທົ່ວໄປ"],
+    genders: ["ຊາຍ", "ຍິງ"],
     checkbox: false,
   }),
 
@@ -261,150 +274,124 @@ export default {
       axios.get("http://127.0.0.1:8000/api/user/all").then((response) => {
         this.show = response.data.data;
         this.myloadingvariable = false;
-        console.log(response.data.data);
+        //console.log(response.data.data);
+        console.log('successfully fetch')
       });
+    },
+
+    onFileChange(e) {
+      // console.log(e.target.files[0]); for normal input tag
+      //this.file = e.target.files[0];
+      console.log(e); //for vuetify v-text-field
+      this.image = e;
+    },
+
+    formSubmit(e) {
+      e.preventDefault();
+
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+
+      let formData = new FormData();
+      formData.append("image", this.image);
+      formData.append("depart_Id", this.depart_Id);
+      formData.append("firstname", this.firstname);
+      formData.append("lastname", this.lastname);
+      formData.append("username", this.username);
+      formData.append("email", this.email);
+      formData.append("status", this.status);
+      formData.append("gender", this.gender);
+      formData.append("password", this.password);
+      if (formData !== null && formData !== "") {
+        axios
+          .post("http://127.0.0.1:8000/api/user/add", FormData, config)
+          .then((response) => {
+            //console.log(response);
+            console.log(response.data.data)
+            this.$swal.fire({
+              title: "ບັນທຶກສຳເຫຼັດ!",
+              text: "ບັນທຶກຂໍ້ມູນສຳເຫຼັດ.",
+              icon: "success",
+
+              showConfirmButton: false,
+              timer: 2000,
+            });
+            this.close();
+          })  .catch(error => {
+    console.log(error.reponse); // logs an object to the console
+
+    // Do something with error data
+  });;
+      }
+    },
+    submit() {
+      this.$v.$touch();
     },
   },
 
   computed: {
-    titleErrors() {
+    imageErrors() {
       const errors = [];
-      if (!this.$v.title.$dirty) return errors;
+      if (!this.$v.image.$dirty) return errors;
 
-      !this.$v.title.required && errors.push("Title is required.");
-      return errors;
-    },
-    ex_doc_idErrors() {
-      const errors = [];
-      if (!this.$v.ex_doc_id.$dirty) return errors;
-      !this.$v.ex_doc_id.required && errors.push("ex_doc_id id is required");
-      return errors;
-    },
-    fileErrors() {
-      const errors = [];
-      if (!this.$v.file.$dirty) return errors;
-      !this.$v.file.required && errors.push("choose file");
-      return errors;
-    },
-    fromErrors() {
-      const errors = [];
-      if (!this.$v.from.$dirty) return errors;
-
-      !this.$v.from.required &&
-        errors.push(" You need to tell where is the document come from");
-      return errors;
-    },
-    dateErrors() {
-      const errors = [];
-      if (!this.$v.date.$dirty) return errors;
-
-      !this.$v.date.required && errors.push(" date is required");
-      return errors;
-    },
-
-    doc_IdErrors() {
-      const errors = [];
-      if (!this.$v.doc_Id.$dirty) return errors;
-      !this.$v.doc_Id.required && errors.push(" doc_Id is required");
+      !this.$v.image.required && errors.push("Title is required.");
       return errors;
     },
     depart_IdErrors() {
       const errors = [];
       if (!this.$v.depart_Id.$dirty) return errors;
-      !this.$v.depart_Id.required && errors.push(" depart_Id is required");
+      !this.$v.depart_Id.required && errors.push("ex_doc_id id is required");
       return errors;
     },
-    doc_Category_IdErrors() {
+    firstnameErrors() {
       const errors = [];
-      if (!this.$v.doc_Category_Id.$dirty) return errors;
-      !this.$v.doc_Category_Id.required &&
+      if (!this.$v.firstname.$dirty) return errors;
+      !this.$v.firstname.required && errors.push("choose file");
+      return errors;
+    },
+    lastnameErrors() {
+      const errors = [];
+      if (!this.$v.lastname.$dirty) return errors;
+
+      !this.$v.lastname.required &&
+        errors.push(" You need to tell where is the document come from");
+      return errors;
+    },
+    usernameErrors() {
+      const errors = [];
+      if (!this.$v.username.$dirty) return errors;
+
+      !this.$v.username.required && errors.push(" date is required");
+      return errors;
+    },
+
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.email.$dirty) return errors;
+      !this.$v.email.required && errors.push(" doc_Id is required");
+      return errors;
+    },
+    statusErrors() {
+      const errors = [];
+      if (!this.$v.status.$dirty) return errors;
+      !this.$v.status.required && errors.push(" depart_Id is required");
+      return errors;
+    },
+    genderErrors() {
+      const errors = [];
+      if (!this.$v.gender.$dirty) return errors;
+      !this.$v.gender.required && errors.push("  doc_Category_Id is required");
+      return errors;
+    },
+    passwordErrors() {
+      const errors = [];
+      if (!this.$v.password.$dirty) return errors;
+      !this.$v.password.required &&
         errors.push("  doc_Category_Id is required");
       return errors;
     },
   },
-
-  //     methods: {
-  //       fetchDepartName() {
-
-  //   axios.get("http://127.0.0.1:8000/api/Department/all").then((resp) => {
-  //     this.departs_Id = resp.data.data
-  //     console.log(this.departs_Id)
-
-  //   });
-  //   },
-  //   fetchCategory() {
-
-  //   axios.get("http://127.0.0.1:8000/api/DocCategory/all").then((resp) => {
-  //     this.docs_Category_Id = resp.data.data
-  //     console.log(this.docs_Category_Id)
-
-  //   });
-  //   },
-  //       DeleteShow(doc_Id) {
-
-  //         axios.delete(`http://127.0.0.1:8000/api/doc_inbound/delete/${doc_Id}`)
-  //         .then(res=>{
-  //           alert(res.data.message);
-
-  //         })
-  //   },
-
-  //       onFileChange(e) {
-  //         // console.log(e.target.files[0]); for normal input tag
-  //         //this.file = e.target.files[0];
-  //         console.log(e); //for vuetify v-text-field
-  //         this.file = e;
-  //       },
-  //       formSubmit(e) {
-  //         e.preventDefault();
-
-  //         const config = {
-  //           headers: { "content-type": "multipart/form-data" },
-  //         };
-
-  //         let formData = new FormData();
-  //         formData.append("file", this.file);
-  //         formData.append("from", this.from);
-  //         formData.append("title", this.title);
-  //         formData.append("date", this.date);
-  //         formData.append("depart_Id", this.depart_Id);
-  //         formData.append("doc_Id", this.doc_Id);
-  //         formData.append("doc_Category_Id", this.doc_Category_Id);
-  //         formData.append("ex_doc_id", this.ex_doc_id);
-
-  //         axios
-  //           .post("http://127.0.0.1:8000/api/doc_inbound/add", formData, config)
-  //           .then(
-  //             function (response) {
-  //               console.log(response.data);
-  //             },
-  //             function (error) {
-  //               console.log(error.response.data);
-  //             }
-  //           );
-  //       },
-  //       submit() {
-  //         this.$v.$touch();
-  //       },
-
-  //       clear() {
-  //         this.$v.$reset();
-  //         this.title = "";
-  //         this.from = "";
-  //         this.select = null;
-  //         this.file = null;
-  //         this.date = "";
-  //         this.document = "";
-  //         this.category = null;
-  //       },
-
-  //       getColor (text) {
-  //           if (text = fg) return 'red'
-
-  //           else return 'green'
-  //         },
-
-  //     },
 };
 </script>
 
