@@ -1,5 +1,6 @@
 <template>
   <main class="pl-4" id="customStyle">
+   
     <v-data-table
       :headers="headers"
       :items="show"
@@ -232,6 +233,7 @@ export default {
   },
 
   data: () => ({
+   
     myloadingvariable: true,
     headers: [
       { text: "ເລກທີຂາເຂົ້າ", value: "doc_Id" },
