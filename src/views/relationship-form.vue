@@ -177,16 +177,16 @@ mounted() {
       fetchDepartName() {
 
 axios.get("http://127.0.0.1:8000/api/Department/all").then((resp) => {
-  this.departs_Id = resp.data.data
+  this.departs_Id = resp.data
   console.log(this.departs_Id)
   
 });
 },
     },
-
-
-
-
+   
+      
+ 
+ 
     formSubmit(e) {
      
 

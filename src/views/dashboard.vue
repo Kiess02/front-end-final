@@ -1,23 +1,24 @@
 <template>
   <div class="home">
-    <!-- <v-toolbar
+    <v-toolbar
       dense
       color="primary"
       dark
       extended
-      extension-height="400"
+      extension-height="200"
       flat
     
-    > -->
-      <!-- <v-toolbar-title class="mx-auto" slot="extension" >
+    >
+      <v-toolbar-title class="mx-auto" slot="extension" >
    
 
   <span >ຍິນດີຕ້ອນຮັບ</span> <br>
-  <h2 class="font-weight-bold" text-alig="left">ທ່ານ</h2>
+  <h2 class="font-weight-bold" text-alig="left">ທ່ານ {{value.name }} </h2>
+  <h2 class="font-weight-bold" text-alig="left">ສະຖານະ {{value.status}}</h2>
 
         
       </v-toolbar-title>
-    </v-toolbar> -->
+    </v-toolbar>
 
       
  
@@ -214,8 +215,24 @@
 </template>
 
 <script>
+import Vue from "vue";
+import axios from "axios";
+import VueAxios from "vue-axios";
+Vue.use(VueAxios, axios);
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies, { 
+  
+})
+  
 export default {
   name: "Home",
+  // async created() {
+  //   const res = await.axios.post('http://127.0.0.1:8000/api/user/4', {
+  //     headers: {
+  //       Authorization: 'bareer' + localStorage.getItem('user')
+  //     }
+  //   });
+  //  }
   data: () => ({
     tab: null,
     text: "center",
@@ -228,7 +245,32 @@ export default {
     type: "trend",
     autoLineWidth: false,
     fills: false,
+    
+    name:'',
+    username:'',
+
+     
+
+   
+
   }),
+async created () {
+const res = await axios.get('http://127.0.0.1:8000/api/Department/all');
+
+console.log(res)
+},
+mouted(){
+  this.cookies();
+},
+methods: {
+     
+cookies () {
+  myData = $cookies.get(user)
+  console.log('success',this.myData)
+
+}
+
+}
 };
 </script>
 <style lang="sass" scoped>

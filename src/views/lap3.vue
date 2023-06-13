@@ -5,7 +5,7 @@
         <h2>ສ້າງໃບສະໂໜດ</h2>
       </v-card-title>
       <template>
-        <v-form   @submit="formSubmit">
+        <v-form @submit="sanodSubmit" enctype="multipart/form-data">
           <v-container>
             <v-row>
               <v-col cols="12" md="3">
@@ -48,14 +48,14 @@
 
               <v-col cols="12" md="3">
                 <v-text-field
-                  v-model="send_to"
+                  v-model="email"
                   label="ສົ່ງເຖິງ"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="3">
                 <v-text-field
-                  v-model="title"
+                  v-model="email"
                   label="ເລື່ອງ"
                   required
                 ></v-text-field>
@@ -65,10 +65,10 @@
         </v-form>
       </template>
 
-      <!-- references -->
+      <!-- sanod -->
       <v-data-table
         :headers="headers2"
-        :items="references"
+        :items="sanod"
         class="elevation-1 font pl-2"
       >
         <template v-slot:top>
@@ -88,7 +88,9 @@
                   ເພີ່ມອ້າງອິງ
                 </v-btn>
               </template>
-              <v-card>
+              
+              <v-form  @submit="sanodSubmit" enctype="multipart/form-data">
+              <v-card>            
                 <v-card-title class="justify-center">
                   <h2>ອ້າງອິງ</h2>
                 </v-card-title>
@@ -98,13 +100,13 @@
                     <v-row>
                       <v-col cols="12" sm="6">
                         <v-text-field
-                          v-model="add_references.No"
+                          v-model="editedItem2.No"
                           label="ລຳດັບ"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6">
                         <v-text-field
-                          v-model="add_references.Title"
+                          v-model="editedItem2.Title"
                           label="ຫົວເລື່ອງ"
                         ></v-text-field>
                       </v-col>
@@ -130,10 +132,13 @@
                   >
                     ຍົກເລີກ
                   </v-btn>
+                    
                 </v-card-actions>
               </v-card>
+            </v-form>
             </v-dialog>
           </v-toolbar>
+        
         </template>
       </v-data-table>
 
@@ -164,6 +169,7 @@
                   ເພີ່ມເອກະສານຂາອອກ
                 </v-btn>
               </template>
+              <v-form @submit="sanodSubmit" enctype="multipart/form-data">
               <v-card>
                 <v-card-title class="justify-center">
                   <h2 class="justify-center">ເພີ່ມເອກະສານຂາອອກ</h2>
@@ -174,26 +180,26 @@
                     <v-row>
                       <v-col cols="12" sm="6">
                         <v-text-field
-                          v-model="add_inbound.doc_title"
+                          v-model="editedItem.doc_title"
                           label="ຫົວເລື່ອງ"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6">
                         <v-text-field
-                          v-model="add_inbound.doc_C_Id"
+                          v-model="editedItem.doc_C_Id"
                           label="ເລກທີເອກະສານ"
                         ></v-text-field>
                       </v-col>
 
                       <v-col cols="12" sm="6">
                         <v-text-field
-                          v-model="add_inbound.quantity"
+                          v-model="editedItem.quantity"
                           label="ຈຳນວນ"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6">
                         <v-text-field
-                          v-model="add_inbound.purpose"
+                          v-model="editedItem.purpose"
                           label="ຈຸດປະສົງ"
                         ></v-text-field>
                       </v-col>
@@ -221,6 +227,7 @@
                   </v-btn>
                 </v-card-actions>
               </v-card>
+            </v-form>
             </v-dialog>
           </v-toolbar>
         </template>
@@ -230,9 +237,7 @@
 
       <template>
         <div class="text-center">
-          <v-btn rounded color="primary" dark @click.native="formSubmit">
-            ບັນທຶກ
-          </v-btn>
+          <v-btn rounded color="primary" dark> ບັນທຶກ </v-btn>
         </div>
       </template>
     </v-card>
@@ -245,13 +250,10 @@ export default {
     //doc_outbound
     myloadingvariable: true,
     dialog: false,
-
-    sanod:[],
-    user_Id: "",
+    email: "",
     date: "",
-    send_to: "",
-    title: "",
-
+    user_Id: "",
+    sanodFor: {},
     headers: [
       {
         text: "ຫົວເລື່ອງ",
@@ -260,29 +262,35 @@ export default {
         value: "doc_title",
       },
       { text: "ເລກທີເອກະສານ", value: "doc_C_Id" },
-
+      { text: "ມາຈາກ", value: "from" },
       { text: "ຈຳນວນ", value: "quantity" },
       { text: "ຈຸດປະສົງ", value: "purpose" },
     ],
     Doc_out_bound: [],
     editedIndex: -1,
+    doc_title: "",
+    doc_C_Id: "",
+    from: "",
+    quantity: "",
+    purpose: "",
 
-    //doc out-bound
-    add_inbound: {
+    editedItem: {
       doc_title: "",
       doc_C_Id: "",
       from: "",
       quantity: "",
       purpose: "",
     },
-    doc_outbound_default: {
+
+    defaultItem: {
       doc_title: "",
       doc_C_Id: "",
+      from: "",
       quantity: "",
       purpose: "",
     },
 
-    //references
+    //sanod
     dialog2: false,
 
     headers2: [
@@ -294,13 +302,15 @@ export default {
       },
       { text: "ເລື່ອງ", value: "Title" },
     ],
-    references: [],
+    sanod: [],
     editedIndex2: -1,
-    add_references: {
+    editedItem2: {
       No: "",
       Title: "",
     },
-    reference_default: {
+    No: "",
+    Title: "",
+    defaultItem2: {
       No: "",
       Title: "",
     },
@@ -319,16 +329,16 @@ export default {
     close2() {
       this.dialog2 = false;
       this.$nextTick(() => {
-        this.add_references = Object.assign({}, this.reference_default);
+        this.editedItem2 = Object.assign({}, this.defaultItem2);
         this.editedIndex2 = -1;
       });
     },
 
     save2() {
       if (this.editedIndex2 > -1) {
-        Object.assign(this.references[this.editedIndex2], this.add_references);
+        Object.assign(this.sanod[this.editedIndex2], this.editedItem2);
       } else {
-        this.references.push(this.add_references);
+        this.sanod.push(this.editedItem2);
       }
       this.close2();
     },
@@ -336,7 +346,7 @@ export default {
     close() {
       this.dialog = false;
       this.$nextTick(() => {
-        this.add_inbound = Object.assign({}, this.doc_outbound_default);
+        this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
     },
@@ -344,28 +354,39 @@ export default {
     closeDelete() {
       this.dialogDelete = false;
       this.$nextTick(() => {
-        this.add_inbound = Object.assign({}, this.doc_outbound_default);
+        this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
     },
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.Doc_out_bound[this.editedIndex], this.add_inbound);
+        Object.assign(this.Doc_out_bound[this.editedIndex], this.editedItem);
       } else {
-        this.Doc_out_bound.push(this.add_inbound);
+        this.Doc_out_bound.push(this.editedItem);
       }
       this.close();
     },
 
-    formSubmit() {
-      if (data !== null && data !== "") {
+    sanodSubmit(e) {
+      e.preventDefault();
+
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+
+      let formData = new FormData();
+      formData.append("file", this.file);
+      formData.append("from", this.from);
+      formData.append("title", this.title);
+      formData.append("date", this.date);
+      formData.append("depart_Id", this.depart_Id);
+      formData.append("doc_Id", this.doc_Id);
+      formData.append("doc_Category_Id", this.doc_Category_Id);
+      formData.append("ex_doc_id", this.ex_doc_id);
+      if (formData !== null && formData !== "") {
         axios
-          .post(
-            "http://127.0.0.1:8000/api/outbound_detail/makeOutForm",
-            references,
-            Doc_out_bound
-          )
+          .post("http://127.0.0.1:8000/api/doc_inbound/add", formData, config)
           .then(() => {
             this.$swal.fire({
               title: "ບັນທຶກສຳເຫຼັດ!",
@@ -380,6 +401,9 @@ export default {
       } else {
         this.submit();
       }
+    },
+    close() {
+      this.dialog = false;
     },
   },
 };

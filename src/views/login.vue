@@ -90,15 +90,15 @@ export default {
     
     login() {
      
-      axios
-        .post("http://127.0.0.1:8000/api/authenticate", this.formLogin)
+      
+        axios.post("http://127.0.0.1:8000/api/authenticate", this.formLogin)
         .then((res) => {
           console.log(res);
           var user = res.data.value;
             window.$cookies.set('user',user);
-          
+           
           this.$router.push({name:"dashboard"});
-          
+          console.log(this.$cookies.get('user').username)
         }).catch((error)=>{
           console.log(error.res.data);
         })
