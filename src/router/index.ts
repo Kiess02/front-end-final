@@ -2,11 +2,12 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import meta from "vue-meta";
 import store from "@/store";
-
+import  VueCookies  from "vue-cookies";
 
 Vue.use(VueRouter);
+Vue.use(VueCookies);
 
-
+Vue.$cookies.config('5s')
 
 const routes = [
   {
@@ -237,6 +238,7 @@ const router = new VueRouter({
 
 // router.beforeEach((to, from, next) => {
 
+//   Vue.$cookies.config('5s')
 
 // const requireAuth = to.matched.some((record) => record.meta.requireAuth)
 

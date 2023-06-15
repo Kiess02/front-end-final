@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home ml-1">
     <v-toolbar
       dense
       color="primary"
@@ -12,9 +12,9 @@
       <v-toolbar-title class="mx-auto" slot="extension" >
    
 
-  <span >ຍິນດີຕ້ອນຮັບ</span> <br>
-  <h2 class="font-weight-bold" text-alig="left">ທ່ານ {{value.name }} </h2>
-  <h2 class="font-weight-bold" text-alig="left">ສະຖານະ {{value.status}}</h2>
+  <h2 align="center">ຍິນດີຕ້ອນຮັບ</h2> <br>
+  <h1 class="font-weight-bold" text-align="left">{{this.myData.gender}} {{this.myData.Fname}}  {{this.myData.Lname}}</h1>
+  
 
         
       </v-toolbar-title>
@@ -203,7 +203,7 @@
               </v-app-bar>
             </v-card>
           </v-col>
-     
+         
         </v-row>
     </v-container>
   
@@ -246,28 +246,34 @@ export default {
     autoLineWidth: false,
     fills: false,
     
-    name:'',
-    username:'',
 
-     
+   
+
+     myData:[],
 
    
 
   }),
-async created () {
-const res = await axios.get('http://127.0.0.1:8000/api/Department/all');
 
-console.log(res)
-},
-mouted(){
+mounted(){
   this.cookies();
+  setInterval(() => this.checkCookies(), 3000);
+
+ 
 },
 methods: {
+
      
 cookies () {
-  myData = $cookies.get(user)
+  this.myData = this.$cookies.get('user')
   console.log('success',this.myData)
 
+},
+async checkCookies() {
+  if ($cookies.get('user') == null) {
+  // Navigate to a new path
+  this.$router.push('/login')
+}
 }
 
 }

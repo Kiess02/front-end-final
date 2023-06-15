@@ -1,6 +1,4 @@
 <template>
-
-
   <div>
     <v-card height="500px" width="700px" class="mx-auto mt-5">
       <v-card-title class="justify-center">
@@ -33,8 +31,8 @@
                 <v-date-picker v-model="showEdit.date" no-title scrollable :max="new Date(
                   Date.now() - new Date().getTimezoneOffset() * 60000
                 )
-                    .toISOString()
-                    .substr(0, 10)
+                  .toISOString()
+                  .substr(0, 10)
                   " min="1950-01-01">
                 </v-date-picker>
               </v-menu>
@@ -46,8 +44,7 @@
             </v-col>
 
             <v-col cols="6">
-              <v-file-input label="ກະລຸນາເລືອກໄຟລ" accept=".pdf" show-size @change="onFileChange"
-                class="form-control">
+              <v-file-input label="ກະລຸນາເລືອກໄຟລ" accept=".pdf" show-size @change="onFileChange" class="form-control">
               </v-file-input>
             </v-col>
 
@@ -58,14 +55,14 @@
 
             <v-col cols="6">
               <v-select v-model="showEdit.doc_Category_Id" :items="docs_Category_Id" item-text="category_Name"
-                item-value="doc_Category_Id" label="ກະລຸນາເລືອກໝວດໝູ່ເລກທີ່ເອກະສານ" prepend-icon="mdi-numeric" required
-                ></v-select>
+                item-value="doc_Category_Id" label="ກະລຸນາເລືອກໝວດໝູ່ເລກທີ່ເອກະສານ" prepend-icon="mdi-numeric"
+                required></v-select>
             </v-col>
           </v-row>
 
           <v-row align="center" justify="center">
-            <v-btn class="btn btn-success" @click.native="DocUpdate"  color="primary">
-              Update
+            <v-btn class="btn btn-success" @click.native="DocUpdate" color="primary">
+              ແກ້ໄຂ
             </v-btn>
           </v-row>
         </v-form>
@@ -132,6 +129,49 @@ export default {
       console.log(e); //for vuetify v-text-field
       this.file = e;
     },
+    // DocUpdate(e, doc_Id) {
+    //   e.preventDefault();
+
+    //   const config = {
+    //     headers: {
+    //       Accept: "application/json",
+    //       "Content-type": "multipart/form-data",
+    //     },
+    //   };
+
+    //   let formData = new FormData();
+
+    //   formData.append("from", this.showEdit.from);
+    //   formData.append("title", this.showEdit.title);
+    //   formData.append("date", this.showEdit.date);
+    //   formData.append("depart_Id", this.showEdit.depart_Id);
+    //   formData.append("doc_Category_Id", this.showEdit.doc_Category_Id);
+    //   formData.append("ex_doc_id", this.showEdit.ex_doc_id);
+    //   formData.append("file", this.file);
+
+    //   for (const value of formData.values()) {
+    //     console.log(value);
+    //   }
+
+
+
+    //   axios.post(
+    //     `http://127.0.0.1:8000/api/doc_inbound/edit/${this.$route.params.doc_Id}`, formData, config
+
+
+    //   )
+    //     // this.$axios.put(`api/user/${this.$route.params.id}`, this.user)
+    //     .then(
+
+    //       function (response) {
+    //         console.log(response.data);
+
+    //       },
+    //       function (error) {
+    //         console.log(error.response.data);
+    //       }
+    //     );
+    // },
     DocUpdate(e, doc_Id) {
       e.preventDefault();
 
@@ -152,29 +192,50 @@ export default {
       formData.append("ex_doc_id", this.showEdit.ex_doc_id);
       formData.append("file", this.file);
 
-        for (const value of formData.values()) {
-          console.log(value);
-        }
+      for (const value of formData.values()) {
+        console.log(value);
+      }
+      this.$swal
+        .fire({
+          title: "ທ່ານຕ້ອງການແກ້ໄຂແທ້ບໍ ?",
+          text: "ຂໍ້ມູນໃໝ່ຈະແທນທີ່ຂໍ້ມູນເກົ່າທີ່ທ່ານແກ້ໄຂ!",
+          icon: "warning",
+          showCancelButton: true,
+          cancelButtonText: "ຍົກເລີກ",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "ແມ່ນ!",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            axios.post(
+              `http://127.0.0.1:8000/api/doc_inbound/edit/${this.$route.params.doc_Id}`, formData, config
 
-     
-      axios
-        .post(
-          `http://127.0.0.1:8000/api/doc_inbound/edit/${this.$route.params.doc_Id}`, formData, config
-        
-         
-        )
-        // this.$axios.put(`api/user/${this.$route.params.id}`, this.user)
-        .then(
+            );
+            this.$swal.fire({
+              title: "ແກ້ໄຂສຳເລັດ!",
+              text: "ຂໍ້ມູນຖືກແກ້ໄຂສຳເລັດ.",
+              icon: "success",
+              ConfirmButtonText: "ຕົກລົງ",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+            this.$swal.fire({
+              title: "ທ່ານຍົກເລີກການແກ້ໄຂ",
+              text: "ຂໍ້ມູນຂອງທ່ານຍັງບໍ່ຖືກແກ້ໄຂ ",
+              icon: "error",
 
-          function (response) {
-            console.log(response.data);
-
-          },
-          function (error) {
-            console.log(error.response.data);
+              showConfirmButton: false,
+              timer: 2000,
+            });
           }
-        );
+        })
+        .catch(() => {
+          this.$swal("ຜິດພາດ", "ມີຂໍ້ຜິດພາດເກີດຂຶ້ນ", "warning");
+        });
     },
+
     showData() {
       console.log(this.showEdit);
     },

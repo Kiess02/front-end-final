@@ -250,7 +250,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     show: [],
-    image: null,
+    image:'',
     depart_Id: "",
     gender: "",
     firstname: "",
@@ -268,7 +268,22 @@ export default {
   mounted() {
     this.fetchData();
     setInterval(() => this.fetchData(), 3000);
+   
   },
+//   mounted(){
+//   this.cookies();
+ 
+// },
+// methods: {
+
+     
+// cookies () {
+//   this.myData = this.$cookies.get('user')
+//   console.log('success',this.myData)
+
+// }
+
+// }
   methods: {
     async fetchData() {
       axios.get("http://127.0.0.1:8000/api/user/all").then((response) => {
@@ -278,6 +293,7 @@ export default {
         console.log('successfully fetch')
       });
     },
+  
 
     onFileChange(e) {
       // console.log(e.target.files[0]); for normal input tag
@@ -303,9 +319,12 @@ export default {
       formData.append("status", this.status);
       formData.append("gender", this.gender);
       formData.append("password", this.password);
+      for (const value of formData.values()) {
+  console.log(value);
+}
       if (formData !== null && formData !== "") {
         axios
-          .post("http://127.0.0.1:8000/api/user/add", FormData, config)
+          .post("http://127.0.0.1:8000/api/user/add", formData, config)
           .then((response) => {
             //console.log(response);
             console.log(response.data.data)

@@ -23,32 +23,32 @@
           <v-container class="py-0">
             <v-row>
               <v-col cols="12" md="4">
-                <v-text-field label="Status:" disabled />
+                <v-text-field v-model="myData.status" label="Status:" disabled />
               </v-col>
     
               <v-col cols="12" md="4">
-                <v-text-field class="purple-input" label="ລະຫັດຜູ້ໃຊ້" />
+                <v-text-field   v-model="myData.id" class="purple-input" label="ລະຫັດຜູ້ໃຊ້" />
               </v-col>
               <v-col cols="12" md="4">
-                <v-text-field label="ລະຫັດກົມ"  />
-              </v-col>
-    
-              <v-col cols="12" md="4">
-                <v-text-field class="purple-input" label="ເພດ" />
-              </v-col>
-              <v-col cols="12" md="4">
-                <v-text-field label="ຊື່"  />
+                <v-text-field  v-model="myData.depart" label="ລະຫັດກົມ"  />
               </v-col>
     
               <v-col cols="12" md="4">
-                <v-text-field class="purple-input" label="ນາມສະກຸນ" />
+                <v-text-field  v-model="myData.gender" class="purple-input" label="ເພດ" />
               </v-col>
               <v-col cols="12" md="4">
-                <v-text-field label="ຊື່ຜູ້ໃຊ້"  />
+                <v-text-field  v-model="myData.Fname" label="ຊື່"  />
               </v-col>
     
               <v-col cols="12" md="4">
-                <v-text-field class="purple-input" label="ອີເມວ" />
+                <v-text-field  v-model="myData.Lname" class="purple-input" label="ນາມສະກຸນ" />
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-text-field  v-model="myData.username" label="ຊື່ຜູ້ໃຊ້"  />
+              </v-col>
+    
+              <v-col cols="12" md="4">
+                <v-text-field  v-model="myData.Lname" class="purple-input" label="ອີເມວ" />
               </v-col>
              
             
@@ -91,10 +91,10 @@
                 <v-list-item color="rgba(0, 0, 0, .4)" dark>
                   <v-list-item-content>
                     <v-list-item-title class="">
-                      ທ່ານ {{user.name}}
+                      ທ່ານ {{myData.Fname}} {{myData.Lname}}
                     </v-list-item-title>
                     <v-list-item-subtitle
-                      >ສະຖານະ: {{user.status}}</v-list-item-subtitle
+                      >ສະຖານະ: {{myData.status}}</v-list-item-subtitle
                     >
                   </v-list-item-content>
                 </v-list-item>
@@ -112,18 +112,31 @@
 
 
 <script>
+import Vue from "vue";
+import axios from "axios";
+import VueAxios from "vue-axios";
+Vue.use(VueAxios, axios);
 import VueCookies from 'vue-cookies'
-// Vue.use(VueCookies, { expires: '1d'})
+Vue.use(VueCookies, { 
+  
+})
 
 export default {
   data: () => ({
-     user: []
+     myData: [],
 
 
   }),
   mounted () {
-    // this.userData = window.$cookies.get("user");
+   this.cookies();
 },
+methods: {
+  cookies () {
+  this.myData = this.$cookies.get('user')
+  console.log('success',this.myData)
+
+}
+}
 
 };
 

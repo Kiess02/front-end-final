@@ -22,9 +22,10 @@
         label="ຄົ້ນຫາ"
         placeholder="ກະລຸນາປ້ອນເລກທີເອກະສານ"
         outlined
+        prepend-inner-icon="mdi-magnify"
       ></v-text-field>
       </v-col>
-      <v-col cols="2">
+      <!-- <v-col cols="2">
         <v-btn
         
         outlined
@@ -34,7 +35,7 @@
       >
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-      </v-col>
+      </v-col> -->
     </v-row>
   </div>
 </template>

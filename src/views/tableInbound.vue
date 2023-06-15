@@ -363,8 +363,8 @@ export default {
               `http://127.0.0.1:8000/api/doc_inbound/delete/${doc_Id}`
             );
             this.$swal.fire({
-              title: "ລຶບສຳເລັດ!",
-              text: "ຂໍ້ມູນຖືກລຶບສຳເລັດ.",
+              title: "ລົບສຳເລັດ!",
+              text: "ຂໍ້ມູນລົບສຳເລັດແລ້ວ.",
               icon: "success",
               ConfirmButtonText: "ຕົກລົງ",
               showConfirmButton: false,

@@ -3,7 +3,7 @@
     <v-app-bar dense flat class="flex-grow-0" app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"> </v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-      <v-text-field
+      <!-- <v-text-field
       placeholder='search'
     prepend-inner-icon="mdi-magnify"
       hide-details
@@ -15,7 +15,7 @@
       >
       
       </template>
-    </v-text-field>
+    </v-text-field> -->
     <template>
       <v-btn class="ml-2" min-width="0" text >
         <v-icon>mdi-bell-ring</v-icon>
@@ -49,8 +49,9 @@
             :key="item.userlogin"
             :to="{ path: item.router }"
             link
+            
           >
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title @click="logout">{{ item.title }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -149,7 +150,7 @@ export default {
     drawer: false,
     userlogin: [
       { title: "ເຂົ້າສູ່ລະບົບອື່ນ", router: "/login" },
-      { title: "ອອກຈາກລະບົບ", router: "/documentCategory" },
+      { title: "ອອກຈາກລະບົບ", router: "/login" },
     ],
 
     items: [
@@ -196,6 +197,12 @@ export default {
       },
     ],
   }),
+  methods: {
+    logout() {
+      $cookies.remove('user');
+      console.log('successfully log out')
+    }
+  }
 };
 </script>
 <style>
