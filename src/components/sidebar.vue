@@ -178,7 +178,7 @@ export default {
         action: "mdi-script",
         items: [
           { title: "ລາຍງານຂາອອກກົມ", router: "/report-outbound"  },
-          { title: "ລາຍງານຂາເຂົ້າກົມ" , router: "/report-outbound" },
+          { title: "ລາຍງານຂາເຂົ້າກົມ" , router: "/report-inbound" },
           { title: "ລາຍງານຂາອອກສຳນັກງານ", router: "/tableOutbound" },
           { title: "ລາຍງານຂາເຂົ້າສຳນັກງານ", router: "/tableInbound" },
         ],

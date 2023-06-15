@@ -48,6 +48,14 @@ const routes = [
       requireAuth: true,
     },
   },
+  {
+    path: "/report",
+    name: "report",
+    component: () => import("@/views/report.vue"),
+    meta: {
+      requireAuth: true,
+    },
+  },
 
   {
     path: "/search",

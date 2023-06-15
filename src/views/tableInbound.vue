@@ -14,11 +14,11 @@
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="1000px">
-            <template v-slot:activator="{ on, attrs }">
+            <!-- <template v-slot:activator="{ on, attrs }">
               <v-btn color="primary" dark v-bind="attrs" v-on="on">
                 <v-icon dark> mdi-cloud-upload </v-icon>Upload
               </v-btn>
-            </template>
+            </template> -->
 
             <v-card height="500px" class="pa-1">
               <v-card-title>

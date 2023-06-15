@@ -13,7 +13,7 @@
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="1000px">
-            <template #activator="{ on: dialog }">
+            <!-- <template #activator="{ on: dialog }">
               <v-tooltip left>
                 <template #activator="{ on: tooltip }">
                   <v-btn
@@ -27,7 +27,7 @@
                 </template>
                 <span>ເພີ່ມຜູ້ໃຊ້</span>
               </v-tooltip>
-            </template>
+            </template> -->
 
             <v-card height="400px" class="pa-1">
               <v-card-title>
