@@ -4,15 +4,21 @@ import meta from "vue-meta";
 import store from "@/store";
 import  VueCookies  from "vue-cookies";
 
+
 Vue.use(VueRouter);
 Vue.use(VueCookies);
 
-Vue.$cookies.config('5s')
+//Vue.$cookies.config('1d')
+
+
 
 const routes = [
   {
     path: "/",
     redirect: "login",
+    meta: {
+      requireAuth: false,
+    },
   },
 
   {
@@ -94,6 +100,9 @@ const routes = [
     name: "login",
 
     component: () => import("@/views/login.vue"),
+    meta: {
+      requireAuth: false,
+    },
   },
   {
     path: "/postComponent",
@@ -221,6 +230,7 @@ const routes = [
     component: () => import("@/views/search.vue"),
     meta: {
       requireAuth: true,
+     
     },
   },
 ];
@@ -231,32 +241,49 @@ const router = new VueRouter({
   routes,
 });
 
-// router.beforeEach(async (to, from) => {
-//   if (
-//     // make sure the user is authenticated
-//     !isAuthenticated &&
-//     // ❗️ Avoid an infinite redirect
-//     to.name !== 'Login'
-//   ) {
-//     // redirect the user to the login page
-//     return { name: 'Login' }
+
+
+// router.beforeEach((to, from, next) => {
+//   let cookies_token = Vue.$cookies.get('user')
+//   if (cookies_token == null) {
+//     next("/login")
+//   } else {
+//     next()
 //   }
 // })
 
 
-// router.beforeEach((to, from, next) => {
 
-//   Vue.$cookies.config('5s')
 
-// const requireAuth = to.matched.some((record) => record.meta.requireAuth)
+const authGuard = (to: any, from: any, next: any) => {
+  const token = Vue.$cookies.get('user')
+  if (token == null) {
+    // User is not authenticated, not allow navigation
+    next({name:'login'})
+  } else {
+    // User is  authenticated, allow
+    next()
+  }
+}
 
-//   if(requireAuth){
-//     next({name : 'login'})
 
-//   }
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requireAuth)) {
+    authGuard(to, from, next)
+    to.name !== 'login'
+  } else {
+    next()
+  }
+})
+
+// router.beforeEach((to,from,next) =>{
+//   let requireAuth = Vue.$cookies.get('user')
+//   //const requireAuth = to.matched.some((record) => record.meta.requireAuth)
+
+//   if(requireAuth == null)
+//     next({name:'login'})
 //   else
-//   next();
-
-// });
+//   next({name:'dashboard'});
+// })
 
 export default router;

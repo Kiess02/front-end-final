@@ -73,7 +73,7 @@ export default {
       date: "",
       depart_Id: "",
     },
-   
+   date:"",
     departs_Id: [],
   }),
 
@@ -92,15 +92,26 @@ export default {
 
       console.log(this.relationshipForm);
 
-      axios.post(
-        "http://127.0.0.1:8000/api/inbound_to_Department/add", this.relationshipForm)
+     
+      axios.post("http://127.0.0.1:8000/api/inbound_to_Department/add", this.relationshipForm)
         .then((resp) => {
         this.relationshipForm = resp.data.data;
         console.log(this.relationshipForm);
       });
        
+
+
+     
+
       
      
+    },
+
+    close() {
+      this.dialog = false;
+    },
+    submit() {
+      this.dialog = false;
     },
   },
 };
