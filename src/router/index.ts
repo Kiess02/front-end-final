@@ -85,6 +85,9 @@ const routes = [
     name: "login",
 
     component: () => import("@/views/login.vue"),
+    meta:{
+      requireAuth:false,
+    }
   },
   {
     path: "/postComponent",
@@ -221,6 +224,10 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+router.beforeEach((to =>{
+  console.log(to);
+}));
 
 // router.beforeEach(async (to, from) => {
 //   if (

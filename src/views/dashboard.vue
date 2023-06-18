@@ -1,32 +1,18 @@
 <template>
   <div class="home">
-    <v-toolbar
-      dense
-      color="primary"
-      dark
-      extended
-      extension-height="200"
-      flat
-    
-    >
-      <v-toolbar-title class="mx-auto" slot="extension" >
-   
-
-  <span >ຍິນດີຕ້ອນຮັບ</span> <br>
-  <h2 class="font-weight-bold" text-alig="left">ທ່ານ {{value.name }} </h2>
-  <h2 class="font-weight-bold" text-alig="left">ສະຖານະ {{value.status}}</h2>
-
-        
+    <v-toolbar dense color="primary" dark extended extension-height="200" flat>
+      <v-toolbar-title class="mx-auto" slot="extension">
+        <span>ຍິນດີຕ້ອນຮັບ</span> <br />
+        <h2 class="font-weight-bold" text-alig="left">
+          ທ່ານ {{ this.myData.name }}
+        </h2>
+        <h2 class="font-weight-bold" text-alig="left">
+          ສະຖານະ {{ value.status }}
+        </h2>
       </v-toolbar-title>
     </v-toolbar>
 
-      
- 
-
     <v-container class="mt-5">
-     
-      
-     
       <v-row>
         <v-col cols="12" sm="4">
           <v-hover v-slot="{ hover }" open-delay="200">
@@ -148,7 +134,7 @@
         </v-col>
       </v-row>
       <v-row>
-          <!-- <v-col cols="12" sm="6">
+        <!-- <v-col cols="12" sm="6">
             <v-card>
               <v-app-bar flat color="rgba(0,0,0,0)">
                 <v-toolbar-title class="title black--text pl-0 ml-2">
@@ -168,50 +154,48 @@
               color="deep-purple"></v-sparkline>
             </v-card>
           </v-col> -->
-          <v-col cols="12" sm="6">
-            <v-card>
-              <v-app-bar flat color="rgba(0,0,0,0)">
-                <v-toolbar-title >
-                  ການເຄື່ອນໄຫວລ່າສຸດ
-                </v-toolbar-title>
-              </v-app-bar>
-              <v-app-bar flat color="rgba(0,0,0,0)">
-                <v-btn fab color="purple lighten-4" elevation="0">
-                  <v-icon color="purple">fab fa-bitcoin</v-icon>
-                </v-btn>
-                <v-toolbar-title class=" ml-2">
-                  User 1<span style="font-size:small" ><br>ປ້ອນເອກະສານມາໃໝ່</span>
-                </v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-toolbar-title class=" ml-2" style="font-size:small">
-                  ເລື່ອງ: ເຂົ້າຮ່ວມກອງປະຊຸມ
-                </v-toolbar-title>
-                <v-icon color="green" class="ml-2">fas fa-long-arrow-alt-up</v-icon>
-              </v-app-bar>
-               <v-app-bar flat color="rgba(0,0,0,0)">
-                <v-btn fab color="green lighten-4" elevation="0">
-                  <v-icon color="green">fas fa-yen-sign</v-icon>
-                </v-btn>
-                <v-toolbar-title class=" black--text ml-2">
-                 User 2 <span  style="font-size:small" ><br>ແກ້ໄຂເອກະສານ</span>
-                </v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-toolbar-title class=" ml-2" style="font-size:small">
-                  ເລື່ອງ: ແຈ້ງການພະນັກງານ
-                </v-toolbar-title>
-                <v-icon color="red" class="ml-2">fas fa-long-arrow-alt-down</v-icon>
-              </v-app-bar>
-            </v-card>
-          </v-col>
-     
-        </v-row>
+        <v-col cols="12" sm="6">
+          <v-card>
+            <v-app-bar flat color="rgba(0,0,0,0)">
+              <v-toolbar-title> ການເຄື່ອນໄຫວລ່າສຸດ </v-toolbar-title>
+            </v-app-bar>
+            <v-app-bar flat color="rgba(0,0,0,0)">
+              <v-btn fab color="purple lighten-4" elevation="0">
+                <v-icon color="purple">fab fa-bitcoin</v-icon>
+              </v-btn>
+              <v-toolbar-title class="ml-2">
+                User 1<span style="font-size: small"
+                  ><br />ປ້ອນເອກະສານມາໃໝ່</span
+                >
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-toolbar-title class="ml-2" style="font-size: small">
+                ເລື່ອງ: ເຂົ້າຮ່ວມກອງປະຊຸມ
+              </v-toolbar-title>
+              <v-icon color="green" class="ml-2"
+                >fas fa-long-arrow-alt-up</v-icon
+              >
+            </v-app-bar>
+            <v-app-bar flat color="rgba(0,0,0,0)">
+              <v-btn fab color="green lighten-4" elevation="0">
+                <v-icon color="green">fas fa-yen-sign</v-icon>
+              </v-btn>
+              <v-toolbar-title class="black--text ml-2">
+                User 2 <span style="font-size: small"><br />ແກ້ໄຂເອກະສານ</span>
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-toolbar-title class="ml-2" style="font-size: small">
+                ເລື່ອງ: ແຈ້ງການພະນັກງານ
+              </v-toolbar-title>
+              <v-icon color="red" class="ml-2"
+                >fas fa-long-arrow-alt-down</v-icon
+              >
+            </v-app-bar>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
-  
-    
   </div>
-
-  
-  
 </template>
 
 <script>
@@ -219,11 +203,9 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 Vue.use(VueAxios, axios);
-import VueCookies from 'vue-cookies'
-Vue.use(VueCookies, { 
-  
-})
-  
+import VueCookies from "vue-cookies";
+Vue.use(VueCookies, {});
+
 export default {
   name: "Home",
   // async created() {
@@ -245,32 +227,26 @@ export default {
     type: "trend",
     autoLineWidth: false,
     fills: false,
-    
-    name:'',
-    username:'',
 
-     
+    name: "",
+    username: "",
 
-   
-
+    myData: [],
   }),
-async created () {
-const res = await axios.get('http://127.0.0.1:8000/api/Department/all');
+  // async created () {
+  // const res = await axios.get('http://127.0.0.1:8000/api/Department/all');
 
-console.log(res)
-},
-mouted(){
-  this.cookies();
-},
-methods: {
-     
-cookies () {
-  myData = $cookies.get(user)
-  console.log('success',this.myData)
-
-}
-
-}
+  // console.log(res)
+  // },
+  mounted() {
+    this.cookies();
+  },
+  methods: {
+    cookies() {
+    this.myData = this.$cookies.get('user'),
+      console.log(this.myData)
+    },
+  },
 };
 </script>
 <style lang="sass" scoped>
@@ -283,10 +259,10 @@ cookies () {
 .border {
   border-right: 1px solid grey;
 }
-.back-image{
-  background-image: url('../assets/ສູນກາງແນວ2.jpg');
+.back-image {
+  background-image: url("../assets/ສູນກາງແນວ2.jpg");
   background-position: center bottom;
   opacity: 0.65;
-background-size: cover;
+  background-size: cover;
 }
 </style>

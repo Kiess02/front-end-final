@@ -61,11 +61,16 @@
                     ></v-file-input>
               </v-col>
     
-           
-    
-              <v-col cols="12" class="text-right">
-                <v-btn color="success" class="mr-0"> ອັບເດດ ໂປຣໄຟລ </v-btn>
+           <v-row class="text-right">
+            <v-col cols="3" class="text-right">
+                <v-btn color="success" class=""> ອັບເດດ ໂປຣໄຟລ </v-btn>
               </v-col>
+              <v-col cols="3" class="text-right">
+                <v-btn color="success" class="">ປ່ຽນລະຫັດຜ່ານ</v-btn>
+              </v-col>
+           </v-row>
+    
+              
             </v-row>
           </v-container>
         </v-form>

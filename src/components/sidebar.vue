@@ -3,20 +3,13 @@
     <v-app-bar dense flat class="flex-grow-0" app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"> </v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-      <v-text-field
-      placeholder='search'
-    prepend-inner-icon="mdi-magnify"
-      hide-details
-      style="max-width: 165px;"
-    >
+      
       <template
        
         v-slot:append-outer
       >
       
-      </template>
-    </v-text-field>
-    <template>
+      
       <v-btn class="ml-2" min-width="0" text >
         <v-icon>mdi-bell-ring</v-icon>
       </v-btn>
@@ -167,7 +160,7 @@ export default {
         action: "mdi-widgets",
         items: [
           { title: "ສ້າງສະໂໜດ",router:"/sanod" },
-          { title: "ສ້າງໃບກິດສຳພັນ", router:"/relationship-form" },
+          { title: "ສ້າງໃບຕິດຕາມເອກະສານ", router:"/relationship-form" },
           { title: "ບັນທຶກເອກະສານຂາເຂົ້າ",router:"/Input-inbound-document" },
      
         ],
