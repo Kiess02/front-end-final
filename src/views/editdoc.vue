@@ -1,9 +1,16 @@
 <template>
+
   <div>
+    <template>
+      <div>
+        <v-btn color="blue darken-1" text--white  class="primary ml-2 mt-1"  :to="{ path: '/tableInbound' }">ຍ້ອນກັບ</v-btn>
+      </div>
+    </template>
     <v-card height="500px" width="700px" class="mx-auto mt-5">
       <v-card-title class="justify-center">
         <h2>ແກ້ໄຂ</h2>
       </v-card-title>
+     
       <v-container>
         <v-form class="px-3" mt-3 @submit="DocUpdate" enctype="multipart/form-data">
           <v-row>

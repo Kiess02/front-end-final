@@ -197,6 +197,7 @@ export default {
       },
     ],
   }),
+  
   methods: {
     logout() {
       $cookies.remove('user');

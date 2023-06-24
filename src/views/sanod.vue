@@ -5,13 +5,13 @@
         <h2>ສ້າງໃບສະໂໜດ</h2>
       </v-card-title>
       <template>
-        <v-form >
+        <v-form>
           <v-container>
             <v-row>
               <v-col cols="12" md="3">
                 <v-text-field
-                  v-model="user_Id"
-                 
+                  v-model="sanodInfo.user_Id"
+                  readonly
                   label="ລະຫັດຜູ້ໃຊ້"
                   required
                 ></v-text-field>
@@ -21,7 +21,7 @@
                 <v-menu>
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                      v-model="date"
+                      v-model="sanodInfo.date"
                       label="ວັນເດືອນປີ"
                       prepend-icon="mdi-calendar"
                       readonly
@@ -31,7 +31,7 @@
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    v-model="date"
+                    v-model="sanodInfo.date"
                     no-title
                     scrollable
                     :max="
@@ -49,16 +49,14 @@
 
               <v-col cols="12" md="3">
                 <v-text-field
-                  v-model="email"
-                  
+                  v-model="sanodInfo.send_to"
                   label="ສົ່ງເຖິງ"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="3">
                 <v-text-field
-                  v-model="email"
-               
+                  v-model="sanodInfo.title"
                   label="ເລື່ອງ"
                   required
                 ></v-text-field>
@@ -87,6 +85,7 @@
                   class="mb-2"
                   v-bind="attrs"
                   v-on="on"
+                  @click="fetchReferId"
                 >
                   ເພີ່ມອ້າງອິງ
                 </v-btn>
@@ -101,13 +100,13 @@
                     <v-row>
                       <v-col cols="12" sm="6">
                         <v-text-field
-                          v-model="editedItem2.No"
+                          v-model="referId"
                           label="ລຳດັບ"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6">
                         <v-text-field
-                          v-model="editedItem2.Title"
+                          v-model="editedItem2.detail"
                           label="ຫົວເລື່ອງ"
                         ></v-text-field>
                       </v-col>
@@ -225,7 +224,6 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-   
           </v-toolbar>
         </template>
       </v-data-table>
@@ -234,7 +232,9 @@
 
       <template>
         <div class="text-center">
-          <v-btn rounded color="primary" dark> ບັນທຶກ </v-btn>
+          <v-btn @click="sanodSubmit" rounded color="primary" dark>
+            ບັນທຶກ
+          </v-btn>
         </div>
       </template>
     </v-card>
@@ -242,17 +242,20 @@
 </template>
 
 <script>
+import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
+import axios from "axios";
 export default {
   data: () => ({
     //doc_outbound
     myloadingvariable: true,
     dialog: false,
-    email:'',
-    date:'',
-   user_Id:'',
-   sanodFor:{
-
-   },
+    email: "",
+    date: "",
+    user_Id: "",
+    referId: "",
+    OutdeId: "",
+    sanodFor: {},
     headers: [
       {
         text: "ຫົວເລື່ອງ",
@@ -290,22 +293,46 @@ export default {
         text: "ລຳດັບ",
         align: "start",
         sortable: false,
-        value: "No",
+        value: "referId",
       },
-      { text: "ເລື່ອງ", value: "Title" },
+      { text: "ເລື່ອງ", value: "detail" },
     ],
     sanod: [],
     editedIndex2: -1,
     editedItem2: {
-      No: "",
-      Title: "",
+      detail: "",
     },
     defaultItem2: {
-      No: "",
-      Title: "",
+      detail: "",
     },
+
+    sanodInfo: {
+      user_Id: "",
+      date: "",
+      send_to: "",
+      title: "",
+      refer: [
+        {
+          detail: "",
+        },
+      ],
+      doc_out: [
+        {
+          outbound_Detail_Id: "",
+          doc_title: "",
+          doc_C_Id: "",
+          from: "",
+          quantity: "",
+          purpose: "",
+        },
+      ],
+    },
+    sanodId:'',
   }),
 
+  mounted() {
+    this.fetchUserId(), this.fetchOutDeId();
+  },
   watch: {
     dialog2(val) {
       val || this.close2();
@@ -331,6 +358,8 @@ export default {
         this.sanod.push(this.editedItem2);
       }
       this.close2();
+      this.sanodInfo.refer = this.sanod;
+      console.log(this.sanodInfo.refer);
     },
 
     close() {
@@ -356,13 +385,44 @@ export default {
         this.Doc_out_bound.push(this.editedItem);
       }
       this.close();
+      this.editedItem.from = window.$cookies.get("user").depart;
+      this.sanodInfo.doc_out = this.Doc_out_bound;
+
+      console.log(this.sanodInfo.doc_out);
     },
-    sanodSubmit(){
-      axios.post('http://127.0.0.1:8000/api/outbound_detail/makeOutForm',this.sanodForm).then((res=>{
-        console.log(res)
-      })
-      )
-    }
+    sanodSubmit() {
+      console.log(this.sanodInfo);
+      axios
+        .post(
+          "http://127.0.0.1:8000/api/outbound_detail/makeOutForm",
+          this.sanodInfo
+        )
+        .then((res) => {
+          this.sanodId = res.data.data
+          this.displaySanod(this.sanodId)
+          console.log('success');
+        });
+    },
+    displaySanod(sanodId) {
+      window.open(`http://127.0.0.1:8000/OutDetail/view/${sanodId}`, "_blank");
+    },
+    fetchUserId() {
+      let userId = window.$cookies.get("user").id;
+      this.sanodInfo.user_Id = userId;
+    },
+    fetchReferId() {
+      this.referId = this.sanod.length + 1;
+      console.log(this.referId);
+    },
+    fetchOutDeId() {
+      axios.get("http://127.0.0.1:8000/api/outbound_detail/all").then((res) => {
+        // let OutDeId = res.data.length;
+        let OutDeIds = Object.keys(res.data).length;
+        this.OutdeId = OutDeIds;
+        console.log(this.OutdeId);
+        console.log(res);
+      });
+    },
   },
 };
 </script>

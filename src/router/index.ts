@@ -126,6 +126,14 @@ const routes = [
     },
   },
   {
+    path: "/show/:doc_Id/relationship-form",
+    name: "re-relationshipform",
+    component: () => import("@/views/relationship-form.vue"),
+    meta: {
+      requireAuth: true,
+    },
+  },
+  {
     path: "/:doc_Id/fileReader",
     name: "fileReader",
     component: () => import("@/views/fileReader.vue"),
@@ -133,6 +141,7 @@ const routes = [
       requireAuth: true,
     },
   },
+ 
 
   {
     path: "/profile",
@@ -160,7 +169,7 @@ const routes = [
   },
   {
     path: "/relationship-form",
-    name: "relationship-form.vue",
+    name: "relationship-form",
     component: () => import("@/views/relationship-form.vue"),
     meta: {
       requireAuth: true,

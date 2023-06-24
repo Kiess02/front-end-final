@@ -83,7 +83,7 @@
               <v-col align-self="start" class="pa-0" cols="12">
                 <v-avatar class="profile" color="grey" size="164" tile>
                   <v-img
-                    src="data:image/jpeg;base64,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"
+                    :src=profile
                   ></v-img>
                 </v-avatar>
               </v-col>
@@ -124,18 +124,21 @@ Vue.use(VueCookies, {
 export default {
   data: () => ({
      myData: [],
-
+     profile:''
 
   }),
   mounted () {
    this.cookies();
+   
 },
 methods: {
   cookies () {
   this.myData = this.$cookies.get('user')
   console.log('success',this.myData)
+this.profile = "http://127.0.0.1:8000/storage/images/"+this.myData.image
+console.log(this.profile)
+},
 
-}
 }
 
 };

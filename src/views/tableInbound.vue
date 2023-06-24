@@ -453,11 +453,7 @@ export default {
       this.category = null;
     },
 
-    // getColor (calories) {
-    //     if (calories > 400) return 'red'
-    //     else if (calories > 200) return 'orange'
-    //     else return 'green'
-    //   },
+  
   },
 };
 </script>
