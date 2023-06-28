@@ -86,7 +86,7 @@ export default {
           console.log(res);
           var user = res.data.value;
           window.$cookies.set('user', user,);
-
+            
          this.$router.push({ name: "dashboard" });
           console.log(this.$cookies.get('user').name)
         }).catch((error) => {

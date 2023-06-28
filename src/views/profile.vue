@@ -19,7 +19,8 @@
           </div>
         </v-sheet>
     
-        <v-form>
+        <v-form   @submit="formSubmit"
+        enctype="multipart/form-data">
           <v-container class="py-0">
             <v-row>
               <v-col cols="12" md="4">
@@ -48,7 +49,7 @@
               </v-col>
     
               <v-col cols="12" md="4">
-                <v-text-field  v-model="myData.Lname" class="purple-input" label="ອີເມວ" />
+                <v-text-field  v-model="myData.email" readonly class="purple-input" label="ອີເມວ" />
               </v-col>
              
             
@@ -64,7 +65,7 @@
            
     
               <v-col cols="12" class="text-right">
-                <v-btn color="success" class="mr-0"> ອັບເດດ ໂປຣໄຟລ </v-btn>
+                <v-btn color="success" class="mr-0" @click.native="formSubmit" > ອັບເດດ ໂປຣໄຟລ </v-btn>
               </v-col>
             </v-row>
           </v-container>
@@ -124,7 +125,16 @@ Vue.use(VueCookies, {
 export default {
   data: () => ({
      myData: [],
-     profile:''
+     profile:'',
+     image: "",
+    depart_Id: "",
+    gender: "",
+    firstname: "",
+    lastname: "",
+    username: "",
+    email: "",
+    password: "",
+    status: "",
 
   }),
   mounted () {
@@ -138,6 +148,144 @@ methods: {
 this.profile = "http://127.0.0.1:8000/storage/images/"+this.myData.image
 console.log(this.profile)
 },
+
+onFileChange(e) {
+      // console.log(e.target.files[0]); for normal input tag
+      //this.file = e.target.files[0];
+      console.log(e); //for vuetify v-text-field
+      this.image = e;
+    },
+
+    formSubmit(e) {
+      e.preventDefault();
+
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+
+      let formData = new FormData();
+      formData.append("image", this.image);
+      formData.append("depart_Id", this.depart_Id);
+      formData.append("firstname", this.firstname);
+      formData.append("lastname", this.lastname);
+      formData.append("username", this.username);
+      formData.append("email", this.email);
+      formData.append("status", this.status);
+      formData.append("gender", this.gender);
+      formData.append("password", this.password);
+      for (const value of formData.values()) {
+        console.log(value);
+      }
+   
+   
+        this.$swal
+        .fire({
+          title: "ທ່ານຕ້ອງແກ້ແທ້ບໍ ?",
+          text: "ຂໍ້ມູນໃໝ່ຈະແທນທີ່ຂໍ້ມູນເກົ່າ!",
+          icon: "warning",
+          showCancelButton: true,
+          cancelButtonText: "ຍົກເລີກ",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "ແມ່ນ!",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            axios.post("http://127.0.0.1:8000/api/user/edit/1", formData, config)
+            console.log(response.data.data);
+            this.$swal.fire({
+              title: "ແກ້ໄຂ!",
+              text: "ຂໍ້ມູນແກ້ໄຂສຳເລັດແລ້ວ.",
+              icon: "success",
+              ConfirmButtonText: "ຕົກລົງ",
+              showConfirmButton: false,
+            timer: 2000,
+            });
+          } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+            this.$swal.fire({
+              title: "ຍົກເລີກ",
+              text: "ທ່ານຍົກເລີກການແກ້ໄຂຂໍ້ມູນ",
+              icon: "error",
+           
+              showConfirmButton: false,
+             timer: 2000,
+            });
+          }
+        })
+        .catch(() => {
+          this.$swal("ຜິດພາດ", "ມີຂໍ້ຜິດພາດເກີດຂຶ້ນ", "warning");
+        });
+    
+   
+    },
+   
+    submit() {
+      this.$v.$touch();
+    },
+  },
+
+  computed: {
+    imageErrors() {
+      const errors = [];
+      if (!this.$v.image.$dirty) return errors;
+
+      !this.$v.image.required && errors.push("Title is required.");
+      return errors;
+    },
+    depart_IdErrors() {
+      const errors = [];
+      if (!this.$v.depart_Id.$dirty) return errors;
+      !this.$v.depart_Id.required && errors.push("ex_doc_id id is required");
+      return errors;
+    },
+    firstnameErrors() {
+      const errors = [];
+      if (!this.$v.firstname.$dirty) return errors;
+      !this.$v.firstname.required && errors.push("choose file");
+      return errors;
+    },
+    lastnameErrors() {
+      const errors = [];
+      if (!this.$v.lastname.$dirty) return errors;
+
+      !this.$v.lastname.required &&
+        errors.push(" You need to tell where is the document come from");
+      return errors;
+    },
+    usernameErrors() {
+      const errors = [];
+      if (!this.$v.username.$dirty) return errors;
+
+      !this.$v.username.required && errors.push(" date is required");
+      return errors;
+    },
+
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.email.$dirty) return errors;
+      !this.$v.email.required && errors.push(" doc_Id is required");
+      return errors;
+    },
+    statusErrors() {
+      const errors = [];
+      if (!this.$v.status.$dirty) return errors;
+      !this.$v.status.required && errors.push(" depart_Id is required");
+      return errors;
+    },
+    genderErrors() {
+      const errors = [];
+      if (!this.$v.gender.$dirty) return errors;
+      !this.$v.gender.required && errors.push("  doc_Category_Id is required");
+      return errors;
+    },
+    passwordErrors() {
+      const errors = [];
+      if (!this.$v.password.$dirty) return errors;
+      !this.$v.password.required &&
+        errors.push("  doc_Category_Id is required");
+      return errors;
+    },
+  
 
 }
 

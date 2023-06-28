@@ -7,6 +7,7 @@ import  VueCookies  from "vue-cookies";
 
 Vue.use(VueRouter);
 Vue.use(VueCookies);
+//Vue.use(meta);
 
 //Vue.$cookies.config('1d')
 
@@ -27,6 +28,7 @@ const routes = [
     component: () => import("@/views/dashboard.vue"),
     meta: {
       requireAuth: true,
+     
     },
   },
   {
@@ -157,6 +159,15 @@ const routes = [
     component: () => import("@/views/Users.vue"),
     meta: {
       requireAuth: true,
+     
+    },
+    beforeEnter: (to:any, from:any, next:any) => {
+      const Checkstatus = Vue.$cookies.get("user");
+      if(Checkstatus.status == 'admin'){
+          next()
+      }
+      return false
+     
     },
   },
   {
@@ -260,8 +271,25 @@ const router = new VueRouter({
 //     next()
 //   }
 // })
-
-
+// router.beforeEach((to,from,next) => {
+//   //get the authenticated user 
+//   //const authUser = store.getters.getUser
+//   //check sensitive routes
+//   if (to.matched.some(record => record.meta.requireAuth)) {
+//       if (!authGuard) {
+//           next('/login')
+//       } else {
+//           //check user ROLE/Permission
+//           if (hasPermission( authGuard, to.meta.roles)) {
+//               next()
+//           } else {
+//               next('/404')
+//           }
+//       }
+//   } else {
+//       next();
+//   }
+// })
 
 
 const authGuard = (to: any, from: any, next: any) => {
@@ -274,9 +302,8 @@ const authGuard = (to: any, from: any, next: any) => {
     next()
   }
 }
-
-
 router.beforeEach((to, from, next) => {
+  
   if (to.matched.some(record => record.meta.requireAuth)) {
     authGuard(to, from, next)
     to.name !== 'login'
@@ -284,6 +311,12 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+
+
+
+
+
 
 // router.beforeEach((to,from,next) =>{
 //   let requireAuth = Vue.$cookies.get('user')

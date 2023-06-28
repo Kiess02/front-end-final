@@ -59,15 +59,17 @@
                     </v-col>
 
                     <v-col cols="12" sm="4">
-                      <v-text-field
+                      <v-select
                         v-model="depart_Id"
-                        
+                        :items="departs_Id"
+                        item-text="department_Name"
+                        item-value="depart_Id"
+                        prepend-icon="mdi-file-send"
+                        label="ເລືອກກົມ"
+                        :error-messages="depart_IdErrors"
                         @input="$v.depart_Id.$touch()"
                         @blur="$v.depart_Id.$touch()"
-                        :error-messages="depart_IdErrors"
-                        label="ລະຫັດກົມ"
-                        required
-                      ></v-text-field>
+                      ></v-select>
                     </v-col>
 
                     <v-col cols="12" sm="4">
@@ -82,23 +84,21 @@
                         required
                       ></v-text-field> -->
                       <v-select
-                      v-model="gender"
-                      :items="genders"
-                     
-                      @input="$v.gender.$touch()"
-                      @blur="$v.gender.$touch()"
-                      :error-messages="genderErrors"
-                      label="ເພດ"
-                      required
-                      item-value="gender"
-                      prepend-icon=""
-                    ></v-select>
+                        v-model="gender"
+                        :items="genders"
+                        @input="$v.gender.$touch()"
+                        @blur="$v.gender.$touch()"
+                        :error-messages="genderErrors"
+                        label="ເພດ"
+                        required
+                        item-value="gender"
+                        prepend-icon=""
+                      ></v-select>
                     </v-col>
 
                     <v-col cols="12" sm="4">
                       <v-text-field
                         v-model="username"
-                    
                         @input="$v.username.$touch()"
                         @blur="$v.username.$touch()"
                         :error-messages="usernameErrors"
@@ -110,7 +110,6 @@
                     <v-col cols="12" sm="4">
                       <v-text-field
                         v-model="email"
-                       
                         @input="$v.email.$touch()"
                         @blur="$v.email.$touch()"
                         :error-messages="emailErrors"
@@ -122,7 +121,6 @@
                     <v-col cols="12" sm="4">
                       <v-text-field
                         v-model="password"
-                                           
                         @input="$v.password.$touch()"
                         @blur="$v.password.$touch()"
                         :error-messages="passwordErrors"
@@ -135,11 +133,10 @@
                       <v-select
                         v-model="status"
                         :items="statuss"
-                        item-value="status"
+                       
                         @input="$v.status.$touch()"
                         @blur="$v.status.$touch()"
                         :error-messages="statusErrors"
-                       
                         label="ສະຖານະ"
                         required
                         prepend-icon=""
@@ -151,13 +148,11 @@
                         label="ຮູບ"
                         accept="image/png, image/gif, image/jpeg"
                         show-size
-                        :error-messages="imageErrors"                     
+                        :error-messages="imageErrors"
                         @change="onFileChange"
                         @input="$v.image.$touch()"
                         @blur="$v.image.$touch()"
                         prepend-icon="mdi-camera"
-                        
-                       
                       ></v-file-input>
                     </v-col>
                   </v-row>
@@ -172,7 +167,7 @@
                       ບັນທຶກ
                     </v-btn>
 
-                    <v-btn class="btn btn-success"  color="error">
+                    <v-btn class="btn btn-success" color="error">
                       ຍົກເລີກ
                     </v-btn>
                   </v-row>
@@ -250,7 +245,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     show: [],
-    image:'',
+    image: "",
     depart_Id: "",
     gender: "",
     firstname: "",
@@ -260,40 +255,69 @@ export default {
     password: "",
     status: "",
     status: null,
-    statuss: ["ແອັດມິນ", "ຜູ້ໃຊ້ທົ່ວໄປ"],
-    genders: ["ຊາຍ", "ຍິງ"],
+   
+    statuss: [
+      {
+        text: "ແອັດມິນ",
+        value: "admin",
+      },
+      {
+        text: "ຜູ້ຮັບ",
+        value: "receiver",
+      },
+      {
+        text: "ຜູ້ສົ່ງ",
+        value: "sender",
+      },
+    ],
+    genders: [
+      {
+        text: "ຊາຍ",
+        value: "male",
+      },
+      {
+        text: "ຍິງ",
+        value: "female",
+      },
+    ],
     checkbox: false,
+
+    departs_Id: [],
   }),
 
   mounted() {
     this.fetchData();
     setInterval(() => this.fetchData(), 3000);
-   
+    this.fetchDepartName();
   },
-//   mounted(){
-//   this.cookies();
- 
-// },
-// methods: {
+  //   mounted(){
+  //   this.cookies();
 
-     
-// cookies () {
-//   this.myData = this.$cookies.get('user')
-//   console.log('success',this.myData)
+  // },
+  // methods: {
 
-// }
+  // cookies () {
+  //   this.myData = this.$cookies.get('user')
+  //   console.log('success',this.myData)
 
-// }
+  // }
+
+  // }
   methods: {
     async fetchData() {
       axios.get("http://127.0.0.1:8000/api/user/all").then((response) => {
         this.show = response.data.data;
         this.myloadingvariable = false;
         //console.log(response.data.data);
-        console.log('successfully fetch')
+        console.log("successfully fetch");
       });
     },
-  
+    fetchDepartName() {
+      axios.get("http://127.0.0.1:8000/api/Department/all").then((resp) => {
+        this.departs_Id = resp.data;
+        console.log("successfully fetch");
+      });
+    },
 
     onFileChange(e) {
       // console.log(e.target.files[0]); for normal input tag
@@ -320,14 +344,14 @@ export default {
       formData.append("gender", this.gender);
       formData.append("password", this.password);
       for (const value of formData.values()) {
-  console.log(value);
-}
+        console.log(value);
+      }
       if (formData !== null && formData !== "") {
         axios
           .post("http://127.0.0.1:8000/api/user/add", formData, config)
           .then((response) => {
             //console.log(response);
-            console.log(response.data.data)
+            console.log(response.data.data);
             this.$swal.fire({
               title: "ບັນທຶກສຳເຫຼັດ!",
               text: "ບັນທຶກຂໍ້ມູນສຳເຫຼັດ.",
@@ -337,11 +361,12 @@ export default {
               timer: 2000,
             });
             this.close();
-          })  .catch(error => {
-    console.log(error.reponse); // logs an object to the console
+          })
+          .catch((error) => {
+            console.log(error.reponse); // logs an object to the console
 
-    // Do something with error data
-  });;
+            // Do something with error data
+          });
       }
     },
     submit() {

@@ -1,5 +1,5 @@
 <template>
-  <div class="home ml-1">
+  <div class="home ml-1" id="index">
     <v-toolbar
       dense
       color="primary"
@@ -89,6 +89,7 @@
                       <v-list-item-title
                         class="mb-1 white--text"
                         style="font-size: x-large"
+                        v-role="admin"
                       >
                         ຂາເຂົ້າສຳນັກງານ
                       </v-list-item-title>
@@ -169,7 +170,7 @@
             </v-card>
           </v-col> -->
           <v-col cols="12" sm="6">
-            <v-card>
+            <v-card >
               <v-app-bar flat color="rgba(0,0,0,0)">
                 <v-toolbar-title >
                   ການເຄື່ອນໄຫວລ່າສຸດ
@@ -256,10 +257,18 @@ export default {
   }),
 
 mounted(){
+  // $("#index").hide();
   this.cookies();
   setInterval(() => this.checkCookies(), 3000);
 
- 
+  //  const statuss = window.$cookies.get('user').status;
+  //   if(statuss == 'admin'){
+  //     document.getElementById('searchBtn').style.display='none';
+  //   }else if(statuss == 'receiver'){
+  //     document.getElementById('index').style.visibility='hidden';
+  //   }else if(statuss == 'sender'){
+  //     document.getElementById('MUser').style.display='none';
+  //   }
 },
 methods: {
 
