@@ -147,6 +147,86 @@
             </v-card>
           </v-hover>
         </v-col>
+   
+        <v-col cols="12" sm="4" class="mt-5">
+          
+          <v-hover v-slot="{ hover }" open-delay="200">
+            <v-card
+              color="red darken-1"
+              :elevation="hover ? 16 : 2"
+              :to="{ path: '/report-inbound' }"
+            >
+              <v-row >
+                <v-col cols="12" sm="8" >
+                  <v-list-item three-line>
+                    <v-list-item-content>
+                      <div class="mb-4">
+                        <v-btn fab color="red lighten-2" elevation="0">
+                          <v-icon color="white" x-large
+                            >mdi-page-previous-outline</v-icon
+                          >
+                        </v-btn>
+                      </div>
+                      <v-list-item-title
+                        class="mb-1 white--text"
+                        style="font-size: x-large"
+                      >
+                        ເອກະສານຂາອອກ
+                      </v-list-item-title>
+                      <v-list-item-subtitle class="white--text"
+                        >ກົດເພື່ອໄປເບິ່ງໜ້ານີ້</v-list-item-subtitle
+                      >
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <v-avatar size="100" class="ml-n10 mt-6" tile>
+                    <v-img src="wallet.png"></v-img>
+                  </v-avatar>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-hover>
+        </v-col>
+        <v-col cols="12" sm="4" class="mt-5">
+          <v-hover v-slot="{ hover }" open-delay="200">
+            <v-card
+              color="teal darken-1"
+              :elevation="hover ? 16 : 2"
+              :to="{ path: '/report-outbound' }"
+            >
+              <v-row>
+                <v-col cols="12" sm="8">
+                  <v-list-item three-line>
+                    <v-list-item-content>
+                      <div class="mb-4">
+                        <v-btn fab color="teal lighten-2" elevation="0">
+                          <v-icon color="white" x-large
+                            >mdi-page-next-outline</v-icon
+                          >
+                        </v-btn>
+                      </div>
+                      <v-list-item-title
+                        class="mb-1 white--text"
+                        style="font-size: x-large"
+                      >
+                       ເອກະສານຂາເຂົ້າ
+                      </v-list-item-title>
+                      <v-list-item-subtitle class="white--text"
+                        >ກົດເພື່ອໄປເບິ່ງໜ້ານີ້</v-list-item-subtitle
+                      >
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <v-avatar size="100" class="ml-n10 mt-6" tile>
+                    <v-img src="wallet.png"></v-img>
+                  </v-avatar>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-hover>
+        </v-col>
       </v-row>
       <v-row>
           <!-- <v-col cols="12" sm="6">
