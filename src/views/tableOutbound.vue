@@ -25,7 +25,7 @@
           <v-icon small color="error" class="mr-2" @click="DeleteShow(item.doc_Id)"> mdi-delete </v-icon>
           <v-icon
           small
-          @click="deleteItem(item)"
+          @click="Read(item.doc_Id)" href="#"
         >
           mdi-book
         </v-icon>
@@ -86,13 +86,48 @@ export default {
   },
 
   methods: {
+    
+    
 
     DeleteShow(doc_Id) {
-      axios
-        .delete(`http://127.0.0.1:8000/api/doc_outbound/delete/${doc_Id}`)
-        .then((res) => {
-          alert('successfully fetch');
+    
+        this.$swal
+        .fire({
+          title: "ທ່ານຕ້ອງການລຶບແທ້ບໍ ?",
+          text: "ທ່ານຈະບໍ່ສາມາດກູ້ຄືນຂໍ້ມູນນີ້ໄດ້ອີກ!",
+          icon: "warning",
+          showCancelButton: true,
+          cancelButtonText: "ຍົກເລີກ",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "ແມ່ນ!",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+           axios .delete(`http://127.0.0.1:8000/api/doc_outbound/delete/${doc_Id}`)
+            this.$swal.fire({
+              title: "ລົບສຳເລັດ!",
+              text: "ຂໍ້ມູນລົບສຳເລັດແລ້ວ.",
+              icon: "success",
+              ConfirmButtonText: "ຕົກລົງ",
+              showConfirmButton: false,
+            timer: 2000,
+            });
+          } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+            this.$swal.fire({
+              title: "ລົບບໍ່ສຳເລັດ",
+              text: "ຂໍ້ມູນຂອງທ່ານຍັງປອດໄພ :)",
+              icon: "error",
+           
+              showConfirmButton: false,
+             timer: 2000,
+            });
+          }
+        })
+        .catch(() => {
+          this.$swal("ຜິດພາດ", "ມີຂໍ້ຜິດພາດເກີດຂຶ້ນ", "warning");
         });
+        
     },
     async fetchData() {
       axios
@@ -102,6 +137,11 @@ export default {
           this.myloadingvariable= false;
           console.log('successfully fetch');
         });
+    },
+    Read(doc_Id) {
+        console.log(doc_Id)
+         window.open(`http://127.0.0.1:8000/api/viewDocIn/${doc_Id}`)
+      
     },
 
     

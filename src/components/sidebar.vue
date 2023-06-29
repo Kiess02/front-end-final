@@ -109,11 +109,13 @@
           </router-link>
         </v-list-item-content>
       </v-list>
+      <div><v-divider></v-divider></div>
       <v-list>
         <v-list-group
-          :value="true"
+      
+        :value="false"
           no-action
-          sub-group
+        
           prepend-icon="mdi-widgets"
           color="white"
           class="align-self-center"
@@ -126,6 +128,7 @@
             </v-list-item-content>
           </template>
           <v-list-item
+          active-class="green"
             v-for="(services, index) in service"
             :key="index"
             :id="services.name"
@@ -140,9 +143,10 @@
           </v-list-item>
         </v-list-group>
         <v-list-group
-          :value="true"
+        inactive
+        :value="false"
           no-action
-          sub-group
+          
           prepend-icon="mdi-folder-multiple"
           color="white"
           class="align-self-center"
@@ -156,6 +160,8 @@
             </v-list-item-content>
           </template>
           <v-list-item
+          no-action
+          active-class="green"
             v-for="(managements, index) in management"
             :key="index"
             :id="managements.name"
@@ -170,28 +176,32 @@
           </v-list-item>
         </v-list-group>
         <v-list-group
-          :value="true"
-          no-action
-          sub-group
+        no-action
+        :value="false"
+          inactive
+          v-model="groupOpened"
           prepend-icon="mdi-script"
           color="white"
           class="align-self-center"
         >
           <template v-slot:activator>
-            <v-list-item-content class="display-1">
-              <v-list-item-title style="font-family: phetsarath OT"
+            <v-list-item-content   class="display-1">
+              <v-list-item-title  style="font-family: phetsarath OT"
                 >ລາຍງານ</v-list-item-title
               >
             </v-list-item-content>
           </template>
           <v-list-item
+         
+          no-action
+          active-class="green"
             v-for="(reports, index) in report"
             :key="index"
             :id="reports.name"
             :to="{ path: reports.router }"
             ref="reportRefs"
           >
-            <v-list-item-title>{{ reports.title }}</v-list-item-title>
+            <v-list-item-title active-class="green">{{ reports.title }}</v-list-item-title>
 
             <!-- <v-list-item-icon>
               <v-icon v-text="icon"></v-icon>
@@ -207,6 +217,7 @@
 export default {
   name: "App",
   data: () => ({
+   
     activeColor: "secondary",
     drawer: false,
     userlogin: [
@@ -225,14 +236,22 @@ export default {
         router: "/Input-inbound-document",
         name: "ADocIn",
       },
+      {
+        title: "ບັນທຶກເອກະສານຂາອອກ",
+        router: "/Input-outbound-document",
+        name: "ADocOut",
+      },
     ],
     management: [
+      
       {
+      
         title: "ຈັດການຂໍ້ມູນຜູ້ໃຊ້",
         router: "/Users",
         name: "MUser",
       },
       {
+  
         title: "ປະເພດເອກະສານ",
         router: "/documentCategory",
         name: "MDocType",
@@ -240,25 +259,35 @@ export default {
       { title: "ຈັດການຂໍ້ມູນກົມ", router: "/department", name: "MDepart" },
     ],
     report: [
+     
       {
+        
         title: "ລາຍງານຂາອອກກົມ",
         router: "/report-outbound",
         name: "ROutDepart",
       },
       {
+      
         title: "ລາຍງານຂາເຂົ້າກົມ",
         router: "/report-inbound",
         name: "RInDepart",
       },
       {
+       
         title: "ລາຍງານຂາອອກສຳນັກງານ",
         router: "/tableOutbound",
         name: "ROut",
       },
       {
+        
         title: "ລາຍງານຂາເຂົ້າສຳນັກງານ",
         router: "/tableInbound",
         name: "RIn",
+      },
+      {
+        
+         title: "lap2", router: "/lap2"  ,
+          
       },
     ],
    

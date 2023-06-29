@@ -202,6 +202,14 @@ const routes = [
       requireAuth: true,
     },
   },
+  {
+    path: "/Input-outbound-document",
+    name: "Input-outbound-document",
+    component: () => import("@/views/Input-outbound-document.vue"),
+    meta: {
+      requireAuth: true,
+    },
+  },
 
   {
     path: "/report-inbound",

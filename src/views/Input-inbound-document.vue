@@ -5,73 +5,153 @@
         <h2>ເພີ່ມເອກະສານຂາເຂົ້າ</h2>
       </v-card-title>
       <v-container>
-        <v-form class="px-3" mt-3 @submit="formSubmit" enctype="multipart/form-data">
+        <v-form
+          class="px-3"
+          mt-3
+          @submit="formSubmit"
+          enctype="multipart/form-data"
+        >
           <v-row>
             <v-col cols="6">
-              <v-text-field label="ກະລຸນາປ້ອນ ເລກທີເອກະສານ" prepend-icon="mdi-numeric " color="teal accent-3"
-                v-model="doc_Id" required :error-messages="doc_IdErrors" @input="$v.doc_Id.$touch()"
-                @blur="$v.doc_Id.$touch()" />
+              <v-text-field
+                label="ກະລຸນາປ້ອນ ເລກທີເອກະສານ"
+                prepend-icon="mdi-numeric "
+                color="teal accent-3"
+                v-model="doc_Id"
+                required
+                :error-messages="doc_IdErrors"
+                @input="$v.doc_Id.$touch()"
+                @blur="$v.doc_Id.$touch()"
+              />
             </v-col>
 
             <v-col cols="6">
-              <v-text-field label="ກະລຸນາປ້ອນຫົວເລື່ອງ" prepend-icon="mdi-format-title" color="teal accent-3"
-                v-model="title" required :error-messages="titleErrors" @input="$v.title.$touch()"
-                @blur="$v.title.$touch()" />
+              <v-text-field
+                label="ກະລຸນາປ້ອນຫົວເລື່ອງ"
+                prepend-icon="mdi-format-title"
+                color="teal accent-3"
+                v-model="title"
+                required
+                :error-messages="titleErrors"
+                @input="$v.title.$touch()"
+                @blur="$v.title.$touch()"
+              />
             </v-col>
 
             <v-col cols="6">
-              <v-text-field label="ກະລຸນາປ້ອນເລກທີເອກະສານທີ່ມີຢູ່" prepend-icon="mdi-file-check" color="teal accent-3"
-                v-model="ex_doc_id" required :error-messages="ex_doc_idErrors" @input="$v.ex_doc_id.$touch()"
-                @blur="$v.ex_doc_id.$touch()" />
+              <v-text-field
+                label="ກະລຸນາປ້ອນເລກທີເອກະສານທີ່ມີຢູ່"
+                prepend-icon="mdi-file-check"
+                color="teal accent-3"
+                v-model="ex_doc_id"
+                required
+                :error-messages="ex_doc_idErrors"
+                @input="$v.ex_doc_id.$touch()"
+                @blur="$v.ex_doc_id.$touch()"
+              />
             </v-col>
 
             <v-col cols="6">
               <v-menu>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-text-field v-model="date" label="ວັນເດືອນປີ" prepend-icon="mdi-calendar" readonly v-bind="attrs"
-                    v-on="on" required :error-messages="dateErrors" @input="$v.date.$touch()"
-                    @blur="$v.date.$touch()"></v-text-field>
+                  <v-text-field
+                    v-model="date"
+                    label="ວັນເດືອນປີ"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                    required
+                    :error-messages="dateErrors"
+                    @input="$v.date.$touch()"
+                    @blur="$v.date.$touch()"
+                  ></v-text-field>
                 </template>
-                <v-date-picker v-model="date" no-title scrollable :max="new Date(
-                  Date.now() - new Date().getTimezoneOffset() * 60000
-                )
-                    .toISOString()
-                    .substr(0, 10)
-                  " :min="new Date().toISOString().substr(0, 10)">
+                <v-date-picker
+                  v-model="date"
+                  no-title
+                  scrollable
+                  :max="
+                    new Date(
+                      Date.now() - new Date().getTimezoneOffset() * 60000
+                    )
+                      .toISOString()
+                      .substr(0, 10)
+                  "
+                  :min="new Date().toISOString().substr(0, 10)"
+                >
                 </v-date-picker>
               </v-menu>
             </v-col>
 
             <v-col cols="6">
-              <v-text-field label="ກະລຸນາລະບຸທີ່ມາ" prepend-icon="mdi-application-import" color="teal accent-3"
-                v-model="from" required :error-messages="fromErrors" @input="$v.from.$touch()" @blur="$v.from.$touch()" />
+              <v-text-field
+                label="ກະລຸນາລະບຸທີ່ມາ"
+                prepend-icon="mdi-application-import"
+                color="teal accent-3"
+                v-model="from"
+                required
+                :error-messages="fromErrors"
+                @input="$v.from.$touch()"
+                @blur="$v.from.$touch()"
+              />
             </v-col>
 
             <v-col cols="6">
-              <v-file-input label="ກະລຸນາເລືອກໄຟລ" accept=".pdf" show-size @change="onFileChange"
-                :error-messages="fileErrors" @input="$v.file.$touch()" @blur="$v.file.$touch()" class="form-control">
+              <v-file-input
+                label="ກະລຸນາເລືອກໄຟລ"
+                accept=".pdf"
+                show-size
+                @change="onFileChange"
+                :error-messages="fileErrors"
+                @input="$v.file.$touch()"
+                @blur="$v.file.$touch()"
+                class="form-control"
+              >
               </v-file-input>
             </v-col>
 
             <v-col cols="6">
-              <v-select v-model="depart_Id" :items="departs_Id" item-text="department_Name" item-value="depart_Id"
-                prepend-icon="mdi-file-send" label="ກະລຸນາລະບຸປາຍທາງທີ່ຈະສົ່ງ" :error-messages="depart_IdErrors"
-                @input="$v.depart_Id.$touch()" @blur="$v.depart_Id.$touch()"></v-select>
+              <v-select
+                v-model="depart_Id"
+                :items="departs_Id"
+                item-text="department_Name"
+                item-value="depart_Id"
+                prepend-icon="mdi-file-send"
+                label="ກະລຸນາລະບຸປາຍທາງທີ່ຈະສົ່ງ"
+                :error-messages="depart_IdErrors"
+                @input="$v.depart_Id.$touch()"
+                @blur="$v.depart_Id.$touch()"
+              ></v-select>
             </v-col>
 
             <v-col cols="6">
-              <v-select v-model="doc_Category_Id" :items="docs_Category_Id" item-text="category_Name"
-                item-value="doc_Category_Id" label="ກະລຸນາເລືອກໝວດໝູ່ເລກທີ່ເອກະສານ" prepend-icon="mdi-numeric" required
-                :error-messages="doc_Category_IdErrors" @input="$v.doc_Category_Id.$touch()"
-                @blur="$v.doc_Category_Id.$touch()"></v-select>
+              <v-select
+                v-model="doc_Category_Id"
+                :items="docs_Category_Id"
+                item-text="category_Name"
+                item-value="doc_Category_Id"
+                label="ກະລຸນາເລືອກໝວດໝູ່ເລກທີ່ເອກະສານ"
+                prepend-icon="mdi-numeric"
+                required
+                :error-messages="doc_Category_IdErrors"
+                @input="$v.doc_Category_Id.$touch()"
+                @blur="$v.doc_Category_Id.$touch()"
+              ></v-select>
             </v-col>
           </v-row>
 
           <v-row align="center" justify="center">
-            <v-btn class="btn btn-success mx-2" @click.native="formSubmit" @click="submit"  :to="{
-              path: '/show/' + doc_Id + '/relationship-form',
-              params: { doc_Id },
-            }" color="primary">
+            <v-btn
+              class="btn btn-success mx-2"
+              @click.native="formSubmit"
+              @click="submit"
+              :to="{
+                path: '/show/' + doc_Id + '/relationship-form',
+                params: { doc_Id },
+              }"
+              color="primary"
+            >
               ບັນທຶກ
             </v-btn>
 
@@ -225,7 +305,7 @@ export default {
       this.file = e;
     },
 
-    async formSubmit(e,doc_Id) {
+    async formSubmit(e, doc_Id) {
       e.preventDefault();
 
       const config = {
@@ -242,8 +322,8 @@ export default {
       formData.append("doc_Category_Id", this.doc_Category_Id);
       formData.append("ex_doc_id", this.ex_doc_id);
       if (formData !== null && formData !== "") {
-        
-         axios.post("http://127.0.0.1:8000/api/doc_inbound/add", formData, config)
+        axios
+          .post("http://127.0.0.1:8000/api/doc_inbound/add", formData, config)
           .then(() => {
             //window.location.reload();
             this.$swal
@@ -254,22 +334,15 @@ export default {
 
                 showConfirmButton: false,
                 timer: 2000,
-                
-               
-                  }).then(()=>{
-                    onClose: () => {
-                  
-                  this.$router.push({
-                    path: '/show/' + doc_Id + '/relationship-form',
-                    params: { doc_Id },
-
-                  })
-
-                }
-
               })
-
-             
+              .then(() => {
+                onClose: () => {
+                  this.$router.push({
+                    path: "/show/" + doc_Id + "/relationship-form",
+                    params: { doc_Id },
+                  });
+                };
+              });
           });
       } else {
         this.submit();
@@ -278,11 +351,11 @@ export default {
     submit() {
       this.$v.$touch();
     },
-  
+
     routeID(doc_Id) {
-      console.log(doc_Id)
+      console.log(doc_Id);
       this.$router.push({
-        path: '/show/' + doc_Id + '/relationship-form',
+        path: "/show/" + doc_Id + "/relationship-form",
         params: { doc_Id },
       });
 
@@ -294,13 +367,14 @@ export default {
 
     clear() {
       this.$v.$reset();
-      this.title = "";
+      this.file ='';
       this.from = "";
-      this.select = null;
-      this.file = null;
-      this.date = "";
-      this.document = "";
-      this.category = null;
+      this.title= "";
+      this.date=null;
+      this.depart_Id= "";
+      this.doc_Id= "";
+      this.doc_Category_Id= "";
+      this.ex_doc_id= "";
     },
 
     // getColor (calories) {

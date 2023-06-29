@@ -1,197 +1,476 @@
 <template>
-  <div class="pl-1 mt-3">
+  <v-main  class="pl-4">
+  <div>
     <v-data-table
       :headers="headers"
       :items="show"
       dark
       :loading="myloadingvariable"
       loading-text="ກຳລັງໂຫຼດ... ກະລຸນາລໍຖ້າ"
+     
     >
-      <template v-slot:top>
-        <v-toolbar flat>
-          <v-toolbar-title>ລາຍຊື່ຜູ້ໃຊ້</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
-          <v-spacer></v-spacer>
-          <v-dialog v-model="dialog" max-width="1000px">
-            <template #activator="{ on: dialog }">
-              <v-tooltip left>
-                <template #activator="{ on: tooltip }">
+    <template v-slot:top>
+      <v-toolbar flat>
+        <v-toolbar-title>ລາຍຊື່ຜູ້ໃຊ້</v-toolbar-title>
+        <v-divider class="mx-4" inset vertical></v-divider>
+        <v-spacer></v-spacer>
+        <v-dialog v-model="dialog" max-width="1000px">
+          <template #activator="{ on: dialog }">
+            <v-tooltip left>
+              <template #activator="{ on: tooltip }">
+                <v-btn
+                  v-on="{ ...tooltip, ...dialog }"
+                  class="mx-2"
+                  fab
+                  dark
+                  color="indigo"
+                  ><v-icon dark> mdi-plus </v-icon></v-btn
+                >
+              </template>
+              <span>ເພີ່ມຜູ້ໃຊ້</span>
+            </v-tooltip>
+          </template>
+
+          <v-card height="400px" class="pa-1">
+            <v-card-title>
+              <h2>ເພີ່ມຜູ້ໃຊ້</h2>
+            </v-card-title>
+            <v-container>
+              <v-form @submit="formSubmit" enctype="multipart/form-data">
+                <v-row>
+                  <v-col cols="12" sm="4">
+                    <v-text-field
+                      v-model="firstname"
+                      @input="$v.firstname.$touch()"
+                      @blur="$v.firstname.$touch()"
+                      :error-messages="firstnameErrors"
+                      label="ຊື່"
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" sm="4">
+                    <v-text-field
+                      v-model="lastname"
+                      @input="$v.lastname.$touch()"
+                      @blur="$v.lastname.$touch()"
+                      :error-messages="lastnameErrors"
+                      label="ນາມສະກຸນ"
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" sm="4">
+                    <v-select
+                      v-model="depart_Id"
+                      :items="departs_Id"
+                      item-text="department_Name"
+                      item-value="depart_Id"
+                      prepend-icon="mdi-file-send"
+                      label="ເລືອກກົມ"
+                      :error-messages="depart_IdErrors"
+                      @input="$v.depart_Id.$touch()"
+                      @blur="$v.depart_Id.$touch()"
+                    ></v-select>
+                  </v-col>
+
+                  <v-col cols="12" sm="4">
+                    <!-- <v-text-field
+                      v-model="gender"
+                      :counter="10"
+                     
+                      @input="$v.gender.$touch()"
+                      @blur="$v.gender.$touch()"
+                      :error-messages="genderErrors"
+                      label="ເພດ"
+                      required
+                    ></v-text-field> -->
+                    <v-select
+                      v-model="gender"
+                      :items="genders"
+                      @input="$v.gender.$touch()"
+                      @blur="$v.gender.$touch()"
+                      :error-messages="genderErrors"
+                      label="ເພດ"
+                      required
+                      item-value="gender"
+                      prepend-icon=""
+                    ></v-select>
+                  </v-col>
+
+                  <v-col cols="12" sm="4">
+                    <v-text-field
+                      v-model="username"
+                      @input="$v.username.$touch()"
+                      @blur="$v.username.$touch()"
+                      :error-messages="usernameErrors"
+                      label="ຊື່ຜູ້ໃຊ້"
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" sm="4">
+                    <v-text-field
+                      v-model="email"
+                      @input="$v.email.$touch()"
+                      @blur="$v.email.$touch()"
+                      :error-messages="emailErrors"
+                      label="ອີເມວ"
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" sm="4">
+                    <v-text-field
+                      v-model="password"
+                      @input="$v.password.$touch()"
+                      @blur="$v.password.$touch()"
+                      :error-messages="passwordErrors"
+                      label="ລະຫັດຜ່ານ"
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" sm="4">
+                    <v-select
+                      v-model="status"
+                      :items="statuss"
+                     
+                      @input="$v.status.$touch()"
+                      @blur="$v.status.$touch()"
+                      :error-messages="statusErrors"
+                      label="ສະຖານະ"
+                      required
+                      prepend-icon=""
+                    ></v-select>
+                  </v-col>
+
+                  <v-col cols="12" sm="4">
+                    <v-file-input
+                      label="ຮູບ"
+                      accept="image/png, image/gif, image/jpeg"
+                      show-size
+                      :error-messages="imageErrors"
+                      @change="onFileChange"
+                      @input="$v.image.$touch()"
+                      @blur="$v.image.$touch()"
+                      prepend-icon="mdi-camera"
+                    ></v-file-input>
+                  </v-col>
+                </v-row>
+
+                <v-row align="center" justify="center">
                   <v-btn
-                    v-on="{ ...tooltip, ...dialog }"
-                    class="mx-2"
-                    fab
-                    dark
-                    color="indigo"
-                    ><v-icon dark> mdi-plus </v-icon></v-btn
+                    class="btn btn-success mx-2"
+                    @click.native="formSubmit"
+                    @click="submit"
+                    color="primary"
                   >
-                </template>
-                <span>ເພີ່ມຜູ້ໃຊ້</span>
-              </v-tooltip>
-            </template>
+                    ບັນທຶກ
+                  </v-btn>
 
-            <v-card height="400px" class="pa-1">
-              <v-card-title>
-                <h2>ເພີ່ມຜູ້ໃຊ້</h2>
-              </v-card-title>
-              <v-container>
-                <v-form @submit="formSubmit" enctype="multipart/form-data">
+                  <v-btn class="btn btn-success" color="error">
+                    ຍົກເລີກ
+                  </v-btn>
+                </v-row>
+              </v-form>
+            </v-container>
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
+   
+    </template>
+
+    <template>
+      <v-toolbar flat>
+        <v-toolbar-title>ລາຍຊື່ຜູ້ໃຊ້</v-toolbar-title>
+        <v-divider class="mx-4" inset vertical></v-divider>
+        <v-spacer></v-spacer>
+        <v-dialog  v-model="dialog2" max-width="1000px">
+        
+
+          <v-row justify="center">
+            <v-col cols="12" md="8">
+              <v-card
+              class="mt-4 mx-auto pa-4"
+        
+            >
+              <v-sheet
+                class="v-sheet--offset "
+                color="green"
+                elevation="3"
+                max-width="55%"
+                justify="start"
+              >
+                <div class=" white--text"  style="font-size: x-large">
+                  ແກ້ໄຂໂປຣໄຟລ
+                </div>
+              </v-sheet>
+          
+              <v-form   @submit="formSubmit"
+              enctype="multipart/form-data">
+                <v-container class="py-0">
                   <v-row>
-                    <v-col cols="12" sm="4">
-                      <v-text-field
-                        v-model="firstname"
-                        @input="$v.firstname.$touch()"
-                        @blur="$v.firstname.$touch()"
-                        :error-messages="firstnameErrors"
-                        label="ຊື່"
-                        required
-                      ></v-text-field>
+                    <v-col cols="12" md="4">
+                      <v-text-field v-model="myData.status" label="Status:" disabled />
                     </v-col>
-
-                    <v-col cols="12" sm="4">
-                      <v-text-field
-                        v-model="lastname"
-                        @input="$v.lastname.$touch()"
-                        @blur="$v.lastname.$touch()"
-                        :error-messages="lastnameErrors"
-                        label="ນາມສະກຸນ"
-                        required
-                      ></v-text-field>
+          
+                    <v-col cols="12" md="4">
+                      <v-text-field   v-model="myData.id" class="purple-input" label="ລະຫັດຜູ້ໃຊ້" />
                     </v-col>
-
-                    <v-col cols="12" sm="4">
-                      <v-select
-                        v-model="depart_Id"
-                        :items="departs_Id"
-                        item-text="department_Name"
-                        item-value="depart_Id"
-                        prepend-icon="mdi-file-send"
-                        label="ເລືອກກົມ"
-                        :error-messages="depart_IdErrors"
-                        @input="$v.depart_Id.$touch()"
-                        @blur="$v.depart_Id.$touch()"
-                      ></v-select>
+                    <v-col cols="12" md="4">
+                      <v-text-field  v-model="myData.depart" label="ລະຫັດກົມ"  />
                     </v-col>
-
-                    <v-col cols="12" sm="4">
-                      <!-- <v-text-field
-                        v-model="gender"
-                        :counter="10"
-                       
-                        @input="$v.gender.$touch()"
-                        @blur="$v.gender.$touch()"
-                        :error-messages="genderErrors"
-                        label="ເພດ"
-                        required
-                      ></v-text-field> -->
-                      <v-select
-                        v-model="gender"
-                        :items="genders"
-                        @input="$v.gender.$touch()"
-                        @blur="$v.gender.$touch()"
-                        :error-messages="genderErrors"
-                        label="ເພດ"
-                        required
-                        item-value="gender"
-                        prepend-icon=""
-                      ></v-select>
+          
+                    <v-col cols="12" md="4">
+                      <v-text-field  v-model="myData.gender" class="purple-input" label="ເພດ" />
                     </v-col>
-
-                    <v-col cols="12" sm="4">
-                      <v-text-field
-                        v-model="username"
-                        @input="$v.username.$touch()"
-                        @blur="$v.username.$touch()"
-                        :error-messages="usernameErrors"
-                        label="ຊື່ຜູ້ໃຊ້"
-                        required
-                      ></v-text-field>
+                    <v-col cols="12" md="4">
+                      <v-text-field  v-model="myData.Fname" label="ຊື່"  />
                     </v-col>
-
-                    <v-col cols="12" sm="4">
-                      <v-text-field
-                        v-model="email"
-                        @input="$v.email.$touch()"
-                        @blur="$v.email.$touch()"
-                        :error-messages="emailErrors"
-                        label="ອີເມວ"
-                        required
-                      ></v-text-field>
+          
+                    <v-col cols="12" md="4">
+                      <v-text-field  v-model="myData.Lname" class="purple-input" label="ນາມສະກຸນ" />
                     </v-col>
-
-                    <v-col cols="12" sm="4">
-                      <v-text-field
-                        v-model="password"
-                        @input="$v.password.$touch()"
-                        @blur="$v.password.$touch()"
-                        :error-messages="passwordErrors"
-                        label="ລະຫັດຜ່ານ"
-                        required
-                      ></v-text-field>
+                    <v-col cols="12" md="4">
+                      <v-text-field  v-model="myData.username" label="ຊື່ຜູ້ໃຊ້"  />
                     </v-col>
-
-                    <v-col cols="12" sm="4">
-                      <v-select
-                        v-model="status"
-                        :items="statuss"
-                       
-                        @input="$v.status.$touch()"
-                        @blur="$v.status.$touch()"
-                        :error-messages="statusErrors"
-                        label="ສະຖານະ"
-                        required
-                        prepend-icon=""
-                      ></v-select>
+          
+                    <v-col cols="12" md="4">
+                      <v-text-field  v-model="myData.email" readonly class="purple-input" label="ອີເມວ" />
                     </v-col>
-
-                    <v-col cols="12" sm="4">
-                      <v-file-input
-                        label="ຮູບ"
-                        accept="image/png, image/gif, image/jpeg"
-                        show-size
-                        :error-messages="imageErrors"
-                        @change="onFileChange"
-                        @input="$v.image.$touch()"
-                        @blur="$v.image.$touch()"
-                        prepend-icon="mdi-camera"
-                      ></v-file-input>
+                   
+                  
+                   
+                    <v-col cols="12" md="4">
+                    <v-file-input
+                            label="ກະລຸນາເລືອກຮູບຂອງທ່ານ"
+                           
+                            prepend-icon="mdi-camera"
+                          ></v-file-input>
                     </v-col>
+          
+                 
+          
+                    <!-- <v-col cols="12" class="text-right">
+                      <v-btn color="success" class="mr-0" @click.native="formSubmit" > ອັບເດດ ໂປຣໄຟລ </v-btn>
+                    </v-col> -->
                   </v-row>
-
-                  <v-row align="center" justify="center">
-                    <v-btn
-                      class="btn btn-success mx-2"
-                      @click.native="formSubmit"
-                      @click="submit"
-                      color="primary"
-                    >
-                      ບັນທຶກ
-                    </v-btn>
-
-                    <v-btn class="btn btn-success" color="error">
-                      ຍົກເລີກ
-                    </v-btn>
-                  </v-row>
-                </v-form>
-              </v-container>
+                </v-container>
+              </v-form>
             </v-card>
-          </v-dialog>
-        </v-toolbar>
-      </template>
+            </v-col>
+      
+            <v-col cols="12" md="4" class="">
+              <!-- profile -->
+              <v-card class="mx-auto " max-width="434" tile>
+                <v-img
+                  height="100%"
+                  src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwcHBwcIBwgHBwcHBwoHBwcHBw8ICQgKIBEWFiARHxMYHSggGBolGx8VITEhJSkrLi4uFx8zODMsNygtLisBCgoKDQ0NDg0NDjcZFRkrKy0tLS0rNysrNy0tKysrNys3LSsrKzc3Kys3Kys3Ny0rNysrKzcrKystKy0rLSstLf/AABEIALEBHAMBIgACEQEDEQH/xAAYAAEBAQEBAAAAAAAAAAAAAAABAAIDBP/EABYQAQEBAAAAAAAAAAAAAAAAAAABEf/EABcBAQEBAQAAAAAAAAAAAAAAAAABBQT/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD1lYXWzAUUEVDAUKIqaBApFBFEEigCKAIoGUQADQBkNCqM0NAGQaBADQoGWgDNDVAOqKQCKAwxQwVFEEVGkEUQBKBIoAmgARxAyigZDQBkNAGKG2aozQ1RRGQ0AZBCgBQOhRQBRFRRBQxQxAlQgiiCKOIDCVgoTSBkY1iBkY0AZDYVGKGqKDIasZBkNBRmstiiMBoUGQ0lHRIoqIMAkQwDDFDEDDBGoChihQKJFBRAIoAMaQMhoAyGgDLNbrNVGaK1RQYDVAM0NMqMhoCMhpA2koKSCBMBiBjUZjUAwwRqAYYI1EVFQgikCRSARAANBRkVoUGWa0KIzWa3WaozQ1WaDIaoUZDQBkNAGkCISCKYYDEDGozGoBjUZjUAxqMwxFaIhApJApIEkgApFUANACs1qigzWa1RVRmimigyK0yAoKUZRQjJBAmMmCtQgg1DGY1EGoYzDAajUZhRWizCDRZIEhIFBAgkoAQArNIoCims1UFFNFBkGiqBKgEkBGSyVGoWTEGjGYYK01GGog1DGYYDcLMINFkorRZINJkgUECQQIVAEzTQIKKqKoKKazQQQUQSBBIHMslUaLJQahZMBqNRiNCtGMlBqNMQg2WCDa1nTqDS1nTop1aFoHQNQEAKhAAKiqigqyQoAgCQQiSAOZZhijRZhBoslBqNRgwG4WYYK0YyUGiyQaTJBpMkCggIWgCEAQQBUIAqEFBQgIkgBCQORBUaQIEiGATAUGoWSK0WSDSBAlkoEskCggSCBIACEFEEAQQECQBBBQoAGYUgUaSAkIGoYkgYUhSUgKSAxJAUkgkkCCQIVIAClGRSgZoSECCUQqQIJA//2Q=="
+                >
+                  <v-row align="end" class="fill-height">
+                    <v-col align-self="start" class="pa-0" cols="12">
+                      <v-avatar class="profile" color="grey" size="164" tile>
+                        <v-img
+                          :src=profile
+                        ></v-img>
+                      </v-avatar>
+                    </v-col>
+                    <v-col class="py-0">
+                      <v-list-item color="rgba(0, 0, 0, .4)" dark>
+                        <v-list-item-content>
+                          <v-list-item-title class="">
+                            ທ່ານ {{myData.Fname}} {{myData.Lname}}
+                          </v-list-item-title>
+                          <v-list-item-subtitle
+                            >ສະຖານະ: {{myData.status}}</v-list-item-subtitle
+                          >
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-col>
+                  </v-row>
+                </v-img>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-dialog>
+      </v-toolbar>
+   
+    </template>
 
-      <template v-slot:[`item.actions`]="{ item }">
-        <v-icon small class="mr-2"> mdi-pencil </v-icon>
-        <v-icon
-          small
-          color="error"
-          class="mr-2"
-          @click="DeleteShow(item.doc_Id)"
-        >
-          mdi-delete
-        </v-icon>
-        <v-icon small @click="deleteItem(item)"> mdi-book </v-icon>
-      </template>
-    </v-data-table>
+
+    <template v-slot:[`item.actions`]="{ item }">
+      
+      <v-icon
+        small
+        color="error"
+        class="mr-2"
+        @click="DeleteShow(item.doc_Id)"
+      >
+        mdi-delete
+      </v-icon>
+      
+      <v-icon small    @click="dialog4 = true"> mdi-book </v-icon>
+    </template>
+  </v-data-table>
+    <v-row
+      justify="center"
+    >
+     
+   
+   
+      <v-dialog
+        v-model="dialog4"
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
+        scrollable
+      >
+        <v-card tile>
+          <v-toolbar
+            flat
+            dark
+            color="primary"
+          >
+            <v-btn
+              icon
+              dark
+              @click="dialog4 = false"
+            >
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <v-toolbar-title>ຕັ້ງຄ່າຜູ້ໃຊ້</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-toolbar-items>
+              <v-btn
+                dark
+                text
+                @click="dialog = false"
+              >
+                ບັນທຶກ
+              </v-btn>
+            </v-toolbar-items>
+           
+          </v-toolbar>
+          <div class="pl-1 mt-3">
+            <v-container id="user-profile" fluid tag="section">
+              <v-row justify="center">
+                <v-col cols="12" md="8">
+                  <v-card
+                  class="mt-4 mx-auto pa-4"
+            
+                >
+                  <v-sheet
+                    class="v-sheet--offset "
+                    color="green"
+                    elevation="3"
+                    max-width="55%"
+                    justify="start"
+                  >
+                    <div class=" white--text"  style="font-size: x-large">
+                      ແກ້ໄຂໂປຣໄຟລ
+                    </div>
+                  </v-sheet>
+              
+                  <v-form   @submit="formSubmit"
+                  enctype="multipart/form-data">
+                    <v-container class="py-0">
+                      <v-row>
+                        <v-col cols="12" md="4">
+                          <v-text-field v-model="myData.status" label="Status:" disabled />
+                        </v-col>
+              
+                        <v-col cols="12" md="4">
+                          <v-text-field   v-model="myData.id" class="purple-input" label="ລະຫັດຜູ້ໃຊ້" />
+                        </v-col>
+                        <v-col cols="12" md="4">
+                          <v-text-field  v-model="myData.depart" label="ລະຫັດກົມ"  />
+                        </v-col>
+              
+                        <v-col cols="12" md="4">
+                          <v-text-field  v-model="myData.gender" class="purple-input" label="ເພດ" />
+                        </v-col>
+                        <v-col cols="12" md="4">
+                          <v-text-field  v-model="myData.Fname" label="ຊື່"  />
+                        </v-col>
+              
+                        <v-col cols="12" md="4">
+                          <v-text-field  v-model="myData.Lname" class="purple-input" label="ນາມສະກຸນ" />
+                        </v-col>
+                        <v-col cols="12" md="4">
+                          <v-text-field  v-model="myData.username" label="ຊື່ຜູ້ໃຊ້"  />
+                        </v-col>
+              
+                        <v-col cols="12" md="4">
+                          <v-text-field  v-model="myData.email" readonly class="purple-input" label="ອີເມວ" />
+                        </v-col>
+                       
+                      
+                       
+                        <v-col cols="12" md="4">
+                        <v-file-input
+                                label="ກະລຸນາເລືອກຮູບຂອງທ່ານ"
+                               
+                                prepend-icon="mdi-camera"
+                              ></v-file-input>
+                        </v-col>
+              
+                     
+              
+                        <!-- <v-col cols="12" class="text-right">
+                          <v-btn color="success" class="mr-0" @click.native="formSubmit" > ອັບເດດ ໂປຣໄຟລ </v-btn>
+                        </v-col> -->
+                      </v-row>
+                    </v-container>
+                  </v-form>
+                </v-card>
+                </v-col>
+          
+                <v-col cols="12" md="4" class="">
+                  <!-- profile -->
+                  <v-card class="mx-auto " max-width="434" tile>
+                    <v-img
+                      height="100%"
+                      src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwcHBwcIBwgHBwcHBwoHBwcHBw8ICQgKIBEWFiARHxMYHSggGBolGx8VITEhJSkrLi4uFx8zODMsNygtLisBCgoKDQ0NDg0NDjcZFRkrKy0tLS0rNysrNy0tKysrNys3LSsrKzc3Kys3Kys3Ny0rNysrKzcrKystKy0rLSstLf/AABEIALEBHAMBIgACEQEDEQH/xAAYAAEBAQEBAAAAAAAAAAAAAAABAAIDBP/EABYQAQEBAAAAAAAAAAAAAAAAAAABEf/EABcBAQEBAQAAAAAAAAAAAAAAAAABBQT/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD1lYXWzAUUEVDAUKIqaBApFBFEEigCKAIoGUQADQBkNCqM0NAGQaBADQoGWgDNDVAOqKQCKAwxQwVFEEVGkEUQBKBIoAmgARxAyigZDQBkNAGKG2aozQ1RRGQ0AZBCgBQOhRQBRFRRBQxQxAlQgiiCKOIDCVgoTSBkY1iBkY0AZDYVGKGqKDIasZBkNBRmstiiMBoUGQ0lHRIoqIMAkQwDDFDEDDBGoChihQKJFBRAIoAMaQMhoAyGgDLNbrNVGaK1RQYDVAM0NMqMhoCMhpA2koKSCBMBiBjUZjUAwwRqAYYI1EVFQgikCRSARAANBRkVoUGWa0KIzWa3WaozQ1WaDIaoUZDQBkNAGkCISCKYYDEDGozGoBjUZjUAxqMwxFaIhApJApIEkgApFUANACs1qigzWa1RVRmimigyK0yAoKUZRQjJBAmMmCtQgg1DGY1EGoYzDAajUZhRWizCDRZIEhIFBAgkoAQArNIoCims1UFFNFBkGiqBKgEkBGSyVGoWTEGjGYYK01GGog1DGYYDcLMINFkorRZINJkgUECQQIVAEzTQIKKqKoKKazQQQUQSBBIHMslUaLJQahZMBqNRiNCtGMlBqNMQg2WCDa1nTqDS1nTop1aFoHQNQEAKhAAKiqigqyQoAgCQQiSAOZZhijRZhBoslBqNRgwG4WYYK0YyUGiyQaTJBpMkCggIWgCEAQQBUIAqEFBQgIkgBCQORBUaQIEiGATAUGoWSK0WSDSBAlkoEskCggSCBIACEFEEAQQECQBBBQoAGYUgUaSAkIGoYkgYUhSUgKSAxJAUkgkkCCQIVIAClGRSgZoSECCUQqQIJA//2Q=="
+                    >
+                      <v-row align="end" class="fill-height">
+                        <v-col align-self="start" class="pa-0" cols="12">
+                          <v-avatar class="profile" color="grey" size="164" tile>
+                            <v-img
+                              :src=profile
+                            ></v-img>
+                          </v-avatar>
+                        </v-col>
+                        <v-col class="py-0">
+                          <v-list-item color="rgba(0, 0, 0, .4)" dark>
+                            <v-list-item-content>
+                              <v-list-item-title class="">
+                                ທ່ານ {{myData.Fname}} {{myData.Lname}}
+                              </v-list-item-title>
+                              <v-list-item-subtitle
+                                >ສະຖານະ: {{myData.status}}</v-list-item-subtitle
+                              >
+                            </v-list-item-content>
+                          </v-list-item>
+                        </v-col>
+                      </v-row>
+                    </v-img>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-container>
+          
+            
+            </div>
+
+          <div style="flex: 1 1 auto;"></div>
+        </v-card>
+      </v-dialog>
+
+   
+    </v-row>
   </div>
+</v-main>
 </template>
 <script>
 import { validationMixin } from "vuelidate";
@@ -225,6 +504,18 @@ export default {
   },
 
   data: () => ({
+    myData: [],
+     profile:'',
+     image: "",
+    depart_Id: "",
+    gender: "",
+    firstname: "",
+    lastname: "",
+    username: "",
+    email: "",
+    password: "",
+    status: "",
+//////
     myloadingvariable: true,
     headers: [
       {
@@ -243,6 +534,8 @@ export default {
     ],
 
     dialog: false,
+    dialog2: false,
+    dialog4: false,
     dialogDelete: false,
     show: [],
     image: "",
